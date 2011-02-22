@@ -14,24 +14,24 @@ Version: 1.0
 
 == Description ==
 
-Contact Coldform is designed with a sharp focus on clean code, solid performance, and ease of use. No frills, no gimmicks, only pure contact-form satisfaction. If you are looking for a solid, well-designed, user-friendly, fully customizable contact form, look no further: Coldform is perfect for any WordPress blogger. The comprehensive Options panel makes Coldform easy for beginners to take full control, while the consistent, logical PHP/(X)HTML code makes Coldform ideal for advanced users desiring customized functionality. The best of both worlds: a "clean-slate" contact form that provides everything you want and nothing you don't! :)
+Contact Coldform is designed with a sharp focus on clean code, solid performance, and ease of use. No frills, no gimmicks, only pure contact-form satisfaction. If you are looking for a solid, well-designed, user-friendly, fully customizable contact form, look no further: Coldform is perfect for any WordPress blogger. The comprehensive Options panel makes Coldform easy for beginners to take full control, while the consistent, logical PHP/(X)HTML code makes Coldform ideal for advanced users desiring customized functionality. The best of both worlds: a "clean-slate" contact form that provides everything you want and nothing you don't!
 
 **Features**
 
-* Compatible with WordPress versions 1.5 - 2.8 and beyond.
-* Plug-n-play: add Coldform to any WordPress page or post.
-* Simple installation — upload, activate, and customize.
-* Complete WordPress Administrative Options panel for full control.
-* Ultra-clean code output: standards-compliant, valid (X)HTML.
-* Customizable anti-spam challenge question to protect against spam.
-* Secure form processing and protection against malicious attacks.
-* Same-page error messages to help users complete required fields.
-* No obtrusive markup or code added to your <head>.
-* Includes option to enable users to send carbon copies to themselves.
-* Coldform message includes IP, host, agent, and much more.
-* Customizable form-field captions, error messages, and success message.
-* Customizable drop-in CSS skins for easy styling.
-* Customizable CSS attributes.
+* Compatible with WordPress versions 1.5 - 2.8 and beyond
+* Plug-n-play: add Coldform to any WordPress page or post
+* Simple installation — upload, activate, and customize
+* Complete WordPress Administrative Options panel for full control
+* Ultra-clean code output: standards-compliant, valid (X)HTML
+* Customizable anti-spam challenge question to protect against spam
+* Secure form processing and protection against malicious attacks
+* Same-page error messages to help users complete required fields
+* No obtrusive markup or code added to your <code><head></code>
+* Includes option to enable users to send carbon copies to themselves
+* Coldform message includes IP, host, agent, and much more
+* Customizable form-field captions, error messages, and success message
+* Customizable drop-in CSS skins for easy styling
+* Customizable CSS attributes (via Admin)
 * Customizable everything!
 
 Coldform is perfect for WordPress users who want full control over the markup, presentation, and functionality of their contact form. Coldform presents delicious code on every front:
@@ -55,11 +55,11 @@ Contact Coldform features the following default CSS hooks:
 
 * The entire form is enclosed within <code><div id="coldform"></code> for easy, targeted styling.
 * Each form section is enclosed within a <code><fieldset></code> for usability and accessibility.
-* Each <fieldset> contains a <code><legend class="hide"></code> that may be hidden.
+* Each <code><fieldset></code> contains a <code><legend class="hide"></code> that may be hidden.
 * Each input field has a corresponding label: <code><label class="label"></code>.
 * Each input label has a corresponding input: <code><input class="input" type="text"></code>.
 * The form submit button includes its own submit class: <code><input class="submit"></code>.
-* Coldform contains a <code><div class="clear">&nbsp;</div></code> to ensure proper layout.
+* Coldform contains a <code><div class="clear"></div></code> to ensure proper layout.
 * Everything else is customizable via the Coldform Options panel.
 
 To help get you going with styling the Colform, I have prepared a number of "Coldskins" that you can just drop into your theme's style.css file. To download some of these plug-n-play CSS templates, check out: http://perishablepress.com/press/2008/01/15/contact-coldskins/
@@ -91,4 +91,4 @@ See comments section at the plugin Home Page: Available at the plugin Home Page:
 
 == Donations ==
 
-To support this and other plugins, consider buying a copy of my book, [Digging into WordPress](http://digwp.com/). Links, tweets, and Likes are also appreciated! Thanks :)
+To support this and other plugins, consider buying a copy of our book, [Digging into WordPress](http://digwp.com/). Links, tweets, and Likes are also appreciated! Thanks :)
