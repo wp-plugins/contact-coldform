@@ -2,7 +2,7 @@
 
 Plugin Name: Contact Coldform
 Plugin URI: http://perishablepress.com/contact-coldform/
-Description: Lightweight and flexible contact form with plenty of options and squeaky clean markup.
+Description: Secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
 Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
@@ -14,11 +14,11 @@ Stable tag: 20121031
 Version: 20121031
 License: GPL v2
 
-Contact Coldform is a lightweight and flexible contact form with plenty of options and squeaky clean markup.
+Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
 
 == Description ==
 
-[Contact Coldform](http://perishablepress.com/contact-coldform/) delivers clean code, solid performance, and ease of use. No frills, no gimmicks, only pure contact-form satisfaction. The comprehensive Settings Page makes it easy to take full control with plenty of options and several built-in themes for styling the form. The best of both worlds: a "clean-slate" contact form that provides everything you want and nothing you don't! 
+[Contact Coldform](http://perishablepress.com/contact-coldform/) is a secure, lightweight, flexible contact form with plenty of options and squeaky clean markup. Coldform blocks spam while making it easy for your visitors to contact you from your WordPress-powered website. The comprehensive Settings Page makes it easy to take full control with plenty of options and several built-in themes for styling the form. Coldform delivers everything you need and nothing you don’t -- no frills, no gimmicks, just pure contact-form satisfaction.
 
 **Overview**
 
