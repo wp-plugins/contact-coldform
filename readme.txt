@@ -31,7 +31,7 @@ Contact Coldform is a lightweight and flexible contact form with plenty of optio
 **Features**
 
 * Slick, toggling-panel Settings Page makes it easy to customize and style Coldform
-* Style Coldform from the Settings Page using built-in "coldskins" or upload custom CSS
+* Style Coldform using built-in "coldskins" or upload some custom CSS
 * Provides template tag to display Coldform anywhere in your theme
 * Provides shortcode to display Coldform on any post or page
 * Displays customizable confirmation message to the sender
