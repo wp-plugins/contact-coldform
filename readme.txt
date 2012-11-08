@@ -18,7 +18,7 @@ Contact Coldform is a lightweight and flexible contact form with plenty of optio
 
 == Description ==
 
-[Contact Coldform](http://perishablepress.com/contact-coldform/) delivers clean code, solid performance, and ease of use. No frills, no gimmicks, only pure contact-form satisfaction. The comprehensive Settings Page makes Coldform easy to take full control with plenty of options and several built-in themes for the form. The best of both worlds: a "clean-slate" contact form that provides everything you want and nothing you don't! 
+[Contact Coldform](http://perishablepress.com/contact-coldform/) delivers clean code, solid performance, and ease of use. No frills, no gimmicks, only pure contact-form satisfaction. The comprehensive Settings Page makes it easy to take full control with plenty of options and several built-in themes for styling the form. The best of both worlds: a "clean-slate" contact form that provides everything you want and nothing you don't! 
 
 **Overview**
 
