@@ -22,9 +22,9 @@ Contact Coldform is a lightweight and flexible contact form with plenty of optio
 
 **Overview**
 
-* Plug-n-play: use shortcode or template tag to display Coldform anywhere on your site
-* Sweet emails: Coldform sends descriptive, well-formatted email messages in plain-text format
-* Safe and secure: Coldform blocks spam, filters malicious content, and sends complete user info
+* Plug-n-play: use shortcode or template tag to display Coldform anywhere
+* Sweet emails: Coldform sends descriptive, well-formatted messages in plain-text
+* Safe and secure: Coldform blocks spam and filters malicious content
 * Ultra-clean code: lightweight, standards-compliant, semantic, valid HTML markup
 * Fully customizable: easy to configure and style from the Coldform Settings page
 
@@ -58,8 +58,8 @@ Contact Coldform is a lightweight and flexible contact form with plenty of optio
 Coldform brings delicious code on every front:
 
 * Squeaky-clean PHP: every line like a fine wine
-* Crispy-clean markup: valid, semantic source code with proper formatting, alignment and spacing
-* Shiny-clean emails: Coldform-processed emails deliver descriptive, well-formatted content
+* Crispy-clean markup: valid, semantic source code with proper formatting
+* Shiny-clean emails: Coldform emails deliver descriptive, well-formatted content
 * Better performance: conditional loading of styles only when Coldform is displayed
 
 **More Features**
@@ -75,10 +75,10 @@ Coldform brings delicious code on every front:
 
 Typical plugin install: upload, activate, and customize in the WP Admin.
 
-1. Unzip and upload the entire directory to your "plugins" folder and activate via the WP Admin.
+1. Unzip and upload the entire directory to your "plugins" folder and activate
 2. Use the shortcode to display Coldform on any post or page, or:
 3. Use the template tag to display the Coldform anywhere in your theme.
-4. Visit the Contact Coldform Settings Page to configure your options and for more information.
+4. Visit the Coldform Settings Page to configure your options and for more info.
 
 Shortcode: `[coldform]`
 
