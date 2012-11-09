@@ -94,7 +94,7 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 
 == Screenshots ==
 
-Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/).
+Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
 
