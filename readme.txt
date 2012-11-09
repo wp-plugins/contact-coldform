@@ -6,7 +6,7 @@ Description: Secure, lightweight and flexible contact form with plenty of option
 Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
-Contributors: Jeff Starr
+Contributors: specialk
 Donate link: http://digwp.com/book/
 Requires at least: 3.0
 Tested up to: 3.4.2
