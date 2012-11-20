@@ -98,7 +98,7 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 
 == Changelog ==
 
-=Version 20121119=
+= Version 20121119 =
 
 * Now supports both shortcodes: `[coldform]` and `[contact_coldform]`
 * Renamed `register_my_style()` to `contact_coldform_register_style()`
@@ -108,7 +108,7 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 * Added placeholder attributes to error fields
 * Fixed styles to load on success page
 
-=Version 20121031=
+= Version 20121031 =
 
 * rebuilt with cleaner, smarter code
 * restructured markup, cleaner hooks
@@ -126,14 +126,13 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 * add HTML5 placeholder attributes
 * add hidden anti-spam field
 
-=Version 0.88.1=
+= Version 0.88.1 =
 
 * Compatibility with WordPress version 2.8.1 by setting `admin_menu`.
 
-=Version 0.88.0=
+= Version 0.88.0 =
 
 * Initial release.
-
 
 == Frequently Asked Questions ==
 
