@@ -10,8 +10,8 @@ Contributors: specialk
 Donate link: http://digwp.com/book/
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 20121031
-Version: 20121031
+Stable tag: 20121119
+Version: 20121119
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -98,7 +98,17 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 
 == Changelog ==
 
-**Version 20121031**
+=Version 20121119=
+
+* Now supports both shortcodes: `[coldform]` and `[contact_coldform]`
+* Renamed `register_my_style()` to `contact_coldform_register_style()`
+* Removed border on all fieldsets via CSS
+* Added padding to input and textareas via CSS
+* Replaced answer with question in anti-spam placeholder
+* Added placeholder attributes to error fields
+* Fixed styles to load on success page
+
+=Version 20121031=
 
 * rebuilt with cleaner, smarter code
 * restructured markup, cleaner hooks
@@ -116,13 +126,14 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 * add HTML5 placeholder attributes
 * add hidden anti-spam field
 
-**Version 0.88.1**
+=Version 0.88.1=
 
 * Compatibility with WordPress version 2.8.1 by setting `admin_menu`.
 
-**Version 0.88.0**
+=Version 0.88.0=
 
 * Initial release.
+
 
 == Frequently Asked Questions ==
 
