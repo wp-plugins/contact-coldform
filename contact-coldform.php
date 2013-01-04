@@ -20,7 +20,7 @@ $contact_coldform_plugin  = __('Contact Coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
 $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/contact-coldform.php';
 $contact_coldform_homeurl = 'http://perishablepress.com/contact-coldform/';
-$contact_coldform_version = '20121119';
+$contact_coldform_version = '20130103';
 
 // require minimum version of WordPress
 add_action('admin_init', 'contact_coldform_require_wp_version');
