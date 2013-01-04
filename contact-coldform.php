@@ -8,9 +8,9 @@ Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://digwp.com/book/
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 20121119
-Version: 20121119
+Tested up to: 3.5
+Stable tag: 20130103
+Version: 20130103
 License: GPL v2
 */
 
@@ -579,7 +579,7 @@ function contact_coldform_render_form() {
 
 		#setting-error-settings_updated { margin: 10px 0; }
 		#setting-error-settings_updated p { margin: 5px; }
-		.button-primary { margin: 0 0 15px 15px; }
+		#mm-plugin-options .button-primary { margin: 0 0 15px 15px; }
 
 		#mm-panel-toggle { margin: 5px 0; }
 		#mm-credit-info { margin-top: -5px; }

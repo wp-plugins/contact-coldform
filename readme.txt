@@ -9,9 +9,9 @@ Author URI: http://monzilla.biz/
 Contributors: specialk
 Donate link: http://digwp.com/book/
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 20121119
-Version: 20121119
+Tested up to: 3.5
+Stable tag: 20130103
+Version: 20130103
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +97,10 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20130103 =
+
+* Added margins to buttons (now required due to CSS changes in WP 3.5)
 
 = Version 20121119 =
 
