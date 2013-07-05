@@ -58,7 +58,7 @@ $error = '';
 $contact_coldform_strings = array(
 	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_name . '" placeholder="Your name" />', 
 	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_email . '" placeholder="Your email" />', 
-	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_response . '" placeholder="' . $contact_coldform_options['coldform_question'] . '" />', 
+	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_response . '" placeholder="Please type the correct response" />', 
 	'message'  => '<textarea name="coldform_message" id="coldform_message" cols="33" rows="7" placeholder="Your message">' . $coldform_post_vars_message . '</textarea>', 
 	'verify'   => '<input name="coldform_verify" type="text" size="33" maxlength="99" value="" />', 
 	'error'    => '',

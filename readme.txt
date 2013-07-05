@@ -103,7 +103,8 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 * Added localization support
 * Cleaned/updated/optimize code
 * Overview and Updates admin panels now open by default
-* resolve PHP Notices for "Undefined variable" and "Undefined Index"
+* Resolve PHP Notices for "Undefined variable" and "Undefined Index"
+* Changed the placeholder attribute of the antispam field
 
 = Version 20130103 =
 
