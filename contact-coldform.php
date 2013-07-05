@@ -6,21 +6,24 @@ Description: Delivers a lightweight, clean-markup contact-form that doesn't requ
 Tags: contact, form, contact form, email
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
-Donate link: http://digwp.com/book/
+Donate link: http://m0n.co/donate
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 20130103
-Version: 20130103
+Stable tag: 20130704
+Version: 20130704
 License: GPL v2
 */
 
 // NO EDITING REQUIRED - PLEASE SET PREFERENCES IN THE WP ADMIN!
 
-$contact_coldform_plugin  = __('Contact Coldform');
+load_plugin_textdomain('coldform', false, dirname( plugin_basename( __FILE__ ) ).'/languages');
+ 
+$contact_coldform_version = '20130704';
+
+$contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
 $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/contact-coldform.php';
 $contact_coldform_homeurl = 'http://perishablepress.com/contact-coldform/';
-$contact_coldform_version = '20130103';
 
 // require minimum version of WordPress
 add_action('admin_init', 'contact_coldform_require_wp_version');
@@ -29,19 +32,34 @@ function contact_coldform_require_wp_version() {
 	if (version_compare($wp_version, '3.0', '<')) {
 		if (is_plugin_active($contact_coldform_path)) {
 			deactivate_plugins($contact_coldform_path);
-			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress 3.0 or higher, and has been deactivated!') . '<br />';
-			$msg .= __('Please return to the ') . '<a href="' . admin_url() . '">' . __('WordPress Admin area') . '</a> ' . __('to upgrade WordPress and try again.');
+			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress 3.0 or higher, and has been deactivated!', 'coldform') . '<br />';
+			$msg .= __('Please return to the ', 'coldform') . '<a href="' . admin_url() . '">' . __('WordPress Admin area', 'coldform') . '</a> ' . __('to upgrade WordPress and try again.', 'coldform');
 			wp_die($msg);
 		}
 	}
 }
 
 // create inputs
+$coldform_post_vars_name = '';
+$coldform_post_vars_email = '';
+$coldform_post_vars_response = '';
+$coldform_post_vars_message = '';
+if (isset($_POST['coldform_name'])) $coldform_post_vars_name = htmlentities($_POST['coldform_name']);
+if (isset($_POST['coldform_email'])) $coldform_post_vars_email = htmlentities($_POST['coldform_email']);
+if (isset($_POST['coldform_response'])) $coldform_post_vars_response = htmlentities($_POST['coldform_response']);
+if (isset($_POST['coldform_message'])) $coldform_post_vars_message = htmlentities($_POST['coldform_message']);
+
+$name = '';
+$email = '';
+$response = '';
+$message = '';
+$verify = '';
+$error = '';
 $contact_coldform_strings = array(
-	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_name']) . '" placeholder="Your name" />', 
-	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_email']) . '" placeholder="Your email" />', 
-	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_response']) . '" placeholder="' . $contact_coldform_options['coldform_question'] . '" />', 
-	'message'  => '<textarea name="coldform_message" id="coldform_message" cols="33" rows="7" placeholder="Your message">' . htmlentities($_POST['coldform_message']) . '</textarea>', 
+	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_name . '" placeholder="Your name" />', 
+	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_email . '" placeholder="Your email" />', 
+	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_response . '" placeholder="' . $contact_coldform_options['coldform_question'] . '" />', 
+	'message'  => '<textarea name="coldform_message" id="coldform_message" cols="33" rows="7" placeholder="Your message">' . $coldform_post_vars_message . '</textarea>', 
 	'verify'   => '<input name="coldform_verify" type="text" size="33" maxlength="99" value="" />', 
 	'error'    => '',
 );
@@ -97,14 +115,15 @@ function contact_coldform_get_ip_address() {
 function contact_coldform_input_filter() {
 	global $contact_coldform_options, $contact_coldform_strings;
 	$coldform_style = $contact_coldform_options['coldform_style'];
+	$coldform_quest = $contact_coldform_options['coldform_question'];
 	$pass = true;
 
-	$_POST['coldform_name']     = stripslashes(trim($_POST['coldform_name']));
-	$_POST['coldform_email']    = stripslashes(trim($_POST['coldform_email']));
-	$_POST['coldform_topic']    = stripslashes(trim($_POST['coldform_topic']));
-	$_POST['coldform_website']  = stripslashes(trim($_POST['coldform_website']));
-	$_POST['coldform_message']  = stripslashes(trim($_POST['coldform_message']));
-	$_POST['coldform_response'] = stripslashes(trim($_POST['coldform_response']));
+	if (isset($_POST['coldform_name'])) $coldform_name = stripslashes(trim($_POST['coldform_name']));
+	if (isset($_POST['coldform_email'])) $coldform_email = stripslashes(trim($_POST['coldform_email']));
+	if (isset($_POST['coldform_topic'])) $coldform_topic = stripslashes(trim($_POST['coldform_topic']));
+	if (isset($_POST['coldform_website'])) $coldform_website = stripslashes(trim($_POST['coldform_website']));
+	if (isset($_POST['coldform_message'])) $coldform_message = stripslashes(trim($_POST['coldform_message']));
+	if (isset($_POST['coldform_response'])) $coldform_response = stripslashes(trim($_POST['coldform_response']));
 
 	if (!isset($_POST['coldform_key'])) { 
 		return false; 
@@ -112,12 +131,12 @@ function contact_coldform_input_filter() {
 	if (empty($_POST['coldform_name'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_name']) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your name" />';
+		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_name) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your name" />';
 	}
 	if (!is_email($_POST['coldform_email'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_email']) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your email" />';
+		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_email) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your email" />';
 	}
 	if (!empty($_POST['coldform_verify'])) { 
 		$pass = false; 
@@ -127,9 +146,9 @@ function contact_coldform_input_filter() {
 	if (empty($_POST['coldform_message'])) {
 		$pass = false; 
 		$fail = 'empty';
-		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your message">' . $_POST['coldform_message'] . '</textarea>';
+		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your message">' . htmlentities($coldform_message) . '</textarea>';
 	}
-	if (contact_coldform_filter_input($_POST['coldform_name']) || contact_coldform_filter_input($_POST['coldform_email'])) {
+	if (contact_coldform_filter_input($coldform_name) || contact_coldform_filter_input($coldform_email)) {
 		$pass = false; 
 		$fail = 'malicious';
 	}
@@ -137,12 +156,12 @@ function contact_coldform_input_filter() {
 		if (empty($_POST['coldform_response'])) {
 			$pass = false; 
 			$fail = 'empty';
-			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_response']) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $contact_coldform_options['coldform_question'] . '" />';
+			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_response) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $coldform_quest . '" />';
 		}
 		if (!contact_coldform_spam_question($_POST['coldform_response'])) {
 			$pass = false;
 			$fail = 'wrong';
-			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($_POST['coldform_response']) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $contact_coldform_options['coldform_question'] . '" />';
+			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_response) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $coldform_quest . '" />';
 		}	
 	}
 	if ($pass == true) {
@@ -240,6 +259,11 @@ function contact_coldform_display_form() {
 				</fieldset>';
 	} else { $coldform_carbon = ''; }
 
+	$coldform_website = '';
+	$coldform_topic = '';
+	if (isset($_POST['coldform_website'])) $coldform_website = htmlentities($_POST['coldform_website']);
+	if (isset($_POST['coldform_topic'])) $coldform_topic = htmlentities($_POST['coldform_topic']);
+
 	$coldform = (
 		$contact_coldform_strings['error'] . '
 		<!-- Contact Coldform @ http://perishablepress.com/contact-coldform/ -->
@@ -256,11 +280,11 @@ function contact_coldform_display_form() {
 				</fieldset>
 				<fieldset class="coldform-website">
 					<label for="coldform_website">' . $sitetext . '</label>
-					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . htmlentities($_POST['coldform_website']) . '" placeholder="Your website" />
+					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . $coldform_website . '" placeholder="Your website" />
 				</fieldset>
 				<fieldset class="coldform_topic">
 					<label for="coldform_topic">' . $subjtext . '</label>
-					<input name="coldform_topic" id="coldform_topic" type="text" size="33" maxlength="177" value="' . htmlentities($_POST['coldform_topic']) . '" placeholder="Subject of email" />
+					<input name="coldform_topic" id="coldform_topic" type="text" size="33" maxlength="177" value="' . $coldform_topic . '" placeholder="Subject of email" />
 				</fieldset>
 				' . $coldform_captcha . '
 				<fieldset class="coldform-message">
@@ -325,7 +349,7 @@ function contact_coldform($content='') {
 
 	$headers   = "MIME-Version: 1.0\n";
 	$headers  .= "From: $name <$email>\n";
-	$headers  .= "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
+	$headers  .= "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 
 	$message   = $_POST['coldform_message'];
 	$message   = wordwrap($message, 77, "\n");
@@ -384,7 +408,7 @@ add_filter ('plugin_action_links', 'contact_coldform_plugin_action_links', 10, 2
 function contact_coldform_plugin_action_links($links, $file) {
 	global $contact_coldform_path;
 	if ($file == $contact_coldform_path) {
-		$contact_coldform_links = '<a href="' . get_admin_url() . 'options-general.php?page=' . $contact_coldform_path . '">' . __('Settings') .'</a>';
+		$contact_coldform_links = '<a href="' . get_admin_url() . 'options-general.php?page=' . $contact_coldform_path . '">' . __('Settings', 'coldform') .'</a>';
 		array_unshift($links, $contact_coldform_links);
 	}
 	return $links;
@@ -526,15 +550,15 @@ function contact_coldform_validate_options($input) {
 $coldform_coldskins = array(
 	'coldskin_default' => array(
 		'value' => 'coldskin_default',
-		'label' => __('Default styles')
+		'label' => __('Default styles', 'coldform')
 	),
 	'coldskin_classic' => array(
 		'value' => 'coldskin_classic',
-		'label' => __('Classic styles')
+		'label' => __('Classic styles', 'coldform')
 	),
 	'coldskin_dark' => array(
 		'value' => 'coldskin_dark',
-		'label' => __('Dark styles')
+		'label' => __('Dark styles', 'coldform')
 	),
 );
 
@@ -591,7 +615,7 @@ function contact_coldform_render_form() {
 		<?php screen_icon(); ?>
 
 		<h2><?php echo $contact_coldform_plugin; ?> <small><?php echo 'v' . $contact_coldform_version; ?></small></h2>
-		<div id="mm-panel-toggle"><a href="<?php get_admin_url() . 'options-general.php?page=' . $contact_coldform_path; ?>"><?php _e('Toggle all panels'); ?></a></div>
+		<div id="mm-panel-toggle"><a href="<?php get_admin_url() . 'options-general.php?page=' . $contact_coldform_path; ?>"><?php _e('Toggle all panels', 'coldform'); ?></a></div>
 
 		<form method="post" action="options.php">
 			<?php $contact_coldform_options = get_option('contact_coldform_options'); settings_fields('contact_coldform_plugin_options'); ?>
@@ -599,175 +623,175 @@ function contact_coldform_render_form() {
 			<div class="metabox-holder">
 				<div class="meta-box-sortables ui-sortable">
 					<div id="mm-panel-overview" class="postbox">
-						<h3><?php _e('Overview'); ?></h3>
-						<div class="toggle default-hidden">
+						<h3><?php _e('Overview', 'coldform'); ?></h3>
+						<div class="toggle">
 							<div class="mm-panel-overview">
 								<p>
-									<strong><?php echo $contact_coldform_plugin; ?></strong> <?php _e(' delivers a lightweight, clean-markup contact-form that doesn&rsquo;t require JavaScript.'); ?>
-									<?php _e('Use the shortcode to display the Coldform on a post or page. Use the template tag to display the Coldform anywhere in your theme template.'); ?>
+									<strong><?php echo $contact_coldform_plugin; ?></strong> <?php _e(' delivers a lightweight, clean-markup contact-form that doesn&rsquo;t require JavaScript.', 'coldform'); ?>
+									<?php _e('Use the shortcode to display the Coldform on a post or page. Use the template tag to display the Coldform anywhere in your theme template.', 'coldform'); ?>
 								</p>
 								<ul>
-									<li><?php _e('To configure the Coldform, visit the'); ?> <a id="mm-panel-primary-link" href="#mm-panel-primary"><?php _e('Coldform Options'); ?></a>.</li>
-									<li><?php _e('For the shortcode and template tag, visit'); ?> <a id="mm-panel-secondary-link" href="#mm-panel-secondary"><?php _e('Shortcodes &amp; Template Tags'); ?></a>.</li>
-									<li><?php _e('By default, some basic CSS styles are applied to the Coldform. To choose different styles and to customize further, visit'); ?> <a id="mm-panel-tertiary-link" href="#mm-panel-tertiary"><?php _e('Appearance &amp; Styles'); ?></a>.</li>
-									<li><?php _e('For more information check the <code>readme.txt</code> and'); ?> <a href="<?php echo $contact_coldform_homeurl; ?>"><?php _e('Coldform Homepage'); ?></a>.</li>
+									<li><?php _e('To configure the Coldform, visit the', 'coldform'); ?> <a id="mm-panel-primary-link" href="#mm-panel-primary"><?php _e('Coldform Options', 'coldform'); ?></a>.</li>
+									<li><?php _e('For the shortcode and template tag, visit', 'coldform'); ?> <a id="mm-panel-secondary-link" href="#mm-panel-secondary"><?php _e('Shortcodes &amp; Template Tags', 'coldform'); ?></a>.</li>
+									<li><?php _e('By default, some basic CSS styles are applied to the Coldform. To choose different styles and to customize further, visit', 'coldform'); ?> <a id="mm-panel-tertiary-link" href="#mm-panel-tertiary"><?php _e('Appearance &amp; Styles', 'coldform'); ?></a>.</li>
+									<li><?php _e('For more information check the <code>readme.txt</code> and', 'coldform'); ?> <a href="<?php echo $contact_coldform_homeurl; ?>"><?php _e('Coldform Homepage', 'coldform'); ?></a>.</li>
 								</ul>
 							</div>
 						</div>
 					</div>
 					<div id="mm-panel-primary" class="postbox">
-						<h3><?php _e('Coldform Options'); ?></h3>
+						<h3><?php _e('Coldform Options', 'coldform'); ?></h3>
 						<div class="toggle<?php if (!isset($_GET["settings-updated"])) { echo ' default-hidden'; } ?>">
-							<p><?php _e('Use these settings to configure and customize Contact Coldform.'); ?></p>
-							<h4><?php _e('General options'); ?></h4>
+							<p><?php _e('Use these settings to configure and customize Contact Coldform.', 'coldform'); ?></p>
+							<h4><?php _e('General options', 'coldform'); ?></h4>
 							<div class="mm-table-wrap">
 								<table class="widefat mm-table">
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_email]"><?php _e('Your Email'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_email]"><?php _e('Your Email', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_email]" value="<?php echo $contact_coldform_options['coldform_email']; ?>" />
-										<div class="mm-item-caption"><?php _e('Where shall Coldform send your messages?'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('Where shall Coldform send your messages?', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_name]"><?php _e('Your Name'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_name]"><?php _e('Your Name', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_name]" value="<?php echo $contact_coldform_options['coldform_name']; ?>" />
-										<div class="mm-item-caption"><?php _e('To whom shall Coldform address your messages?'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('To whom shall Coldform address your messages?', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_website]"><?php _e('Your Website'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_website]"><?php _e('Your Website', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_website]" value="<?php echo $contact_coldform_options['coldform_website']; ?>" />
-										<div class="mm-item-caption"><?php _e('What is the name of your blog or website?'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('What is the name of your blog or website?', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_subject]"><?php _e('Default Subject'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_subject]"><?php _e('Default Subject', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_subject]" value="<?php echo $contact_coldform_options['coldform_subject']; ?>" />
-										<div class="mm-item-caption"><?php _e('This will be the subject of the email if none is specified.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This will be the subject of the email if none is specified.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_prefix]"><?php _e('Subject Prefix'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_prefix]"><?php _e('Subject Prefix', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_prefix]" value="<?php echo $contact_coldform_options['coldform_prefix']; ?>" />
-										<div class="mm-item-caption"><?php _e('This will be prepended to any subject specified by the sender.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This will be prepended to any subject specified by the sender.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_question]"><?php _e('Challenge Question'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_question]"><?php _e('Challenge Question', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_question]" value="<?php echo $contact_coldform_options['coldform_question']; ?>" />
-										<div class="mm-item-caption"><?php _e('This question must be answered correctly before mail is sent.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This question must be answered correctly before mail is sent.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_response]"><?php _e('Challenge Response'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_response]"><?php _e('Challenge Response', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_response]" value="<?php echo $contact_coldform_options['coldform_response']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the only correct answer to the challenge question.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the only correct answer to the challenge question.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_casing]"><?php _e('Case Sensitivity'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_casing]"><?php _e('Case Sensitivity', 'coldform'); ?></label></th>
 										<td><input type="checkbox" name="contact_coldform_options[coldform_casing]" value="1" <?php if (isset($contact_coldform_options['coldform_casing'])) { checked('1', $contact_coldform_options['coldform_casing']); } ?> /> 
-										<?php _e('Check this box if the challenge response should be case-insensitive.'); ?></td>
+										<?php _e('Check this box if the challenge response should be case-insensitive.', 'coldform'); ?></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_trust]"><?php _e('Trust Registered Users'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_trust]"><?php _e('Trust Registered Users', 'coldform'); ?></label></th>
 										<td><input type="checkbox" name="contact_coldform_options[coldform_trust]" value="1" <?php if (isset($contact_coldform_options['coldform_trust'])) { checked('1', $contact_coldform_options['coldform_trust']); } ?> /> 
-										<?php _e('Check this box to disable the challenge question for registered users.'); ?></td>
+										<?php _e('Check this box to disable the challenge question for registered users.', 'coldform'); ?></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_carbon]"><?php _e('Carbon Copies'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_carbon]"><?php _e('Carbon Copies', 'coldform'); ?></label></th>
 										<td><input type="checkbox" name="contact_coldform_options[coldform_carbon]" value="1" <?php if (isset($contact_coldform_options['coldform_carbon'])) { checked('1', $contact_coldform_options['coldform_carbon']); } ?> /> 
-										<?php _e('Check this box if you want to enable users to receive carbon copies.'); ?></td>
+										<?php _e('Check this box if you want to enable users to receive carbon copies.', 'coldform'); ?></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_offset]"><?php _e('Time Offset'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_offset]"><?php _e('Time Offset', 'coldform'); ?></label></th>
 										<td>
 											<input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_offset]" value="<?php echo $contact_coldform_options['coldform_offset']; ?>" />
 											<div class="mm-item-caption">
-												<?php _e('Please specify any time offset here. If no offset, enter "0" (zero).'); ?><br />
-												<?php _e('Current Coldform time:'); ?> <?php echo date("l, F jS, Y @ g:i a", time()+$offset*60*60); ?>
+												<?php _e('Please specify any time offset here. If no offset, enter "0" (zero).', 'coldform'); ?><br />
+												<?php _e('Current Coldform time:', 'coldform'); ?> <?php echo date("l, F jS, Y @ g:i a", time()+$offset*60*60); ?>
 											</div>
 										</td>
 									</tr>
 								</table>
 							</div>
-							<h4><?php _e('Coldform captions'); ?></h4>
+							<h4><?php _e('Coldform captions', 'coldform'); ?></h4>
 							<div class="mm-table-wrap">
 								<table class="widefat mm-table">
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_nametext]"><?php _e('Caption for Name Field'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_nametext]"><?php _e('Caption for Name Field', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_nametext]" value="<?php echo $contact_coldform_options['coldform_nametext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Name field.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Name field.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_mailtext]"><?php _e('Caption for Email Field'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_mailtext]"><?php _e('Caption for Email Field', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_mailtext]" value="<?php echo $contact_coldform_options['coldform_mailtext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Email field.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Email field.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_sitetext]"><?php _e('Caption for Website Field'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_sitetext]"><?php _e('Caption for Website Field', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_sitetext]" value="<?php echo $contact_coldform_options['coldform_sitetext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Website field.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Website field.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_subjtext]"><?php _e('Caption for Subject Field'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_subjtext]"><?php _e('Caption for Subject Field', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_subjtext]" value="<?php echo $contact_coldform_options['coldform_subjtext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Subject field.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Subject field.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_messtext]"><?php _e('Caption for Message Field'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_messtext]"><?php _e('Caption for Message Field', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_messtext]" value="<?php echo $contact_coldform_options['coldform_messtext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Message field.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This is the caption that corresponds with the Message field.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_copytext]"><?php _e('Caption for Carbon Copy'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_copytext]"><?php _e('Caption for Carbon Copy', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_copytext]" value="<?php echo $contact_coldform_options['coldform_copytext']; ?>" />
-										<div class="mm-item-caption"><?php _e('This caption corresponds with the Carbon Copy checkbox.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This caption corresponds with the Carbon Copy checkbox.', 'coldform'); ?></div></td>
 									</tr>
 								</table>
 							</div>
-							<h4><?php _e('Success &amp; error messages'); ?></h4>
-							<p><?php _e('Note: use single quotes for attributes, for example: <code>style=\'margin:10px;color:red;\'</code>'); ?></p>
+							<h4><?php _e('Success &amp; error messages', 'coldform'); ?></h4>
+							<p><?php _e('Note: use single quotes for attributes, for example: <code>style=\'margin:10px;color:red;\'</code>', 'coldform'); ?></p>
 							<div class="mm-table-wrap">
 								<table class="widefat mm-table">
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_welcome]"><?php _e('Welcome Message'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_welcome]"><?php _e('Welcome Message', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_welcome]"><?php echo esc_textarea($contact_coldform_options['coldform_welcome']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('This text/markup will appear before the Coldform, in the <code>&lt;legend&gt;</code> tag.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('This text/markup will appear before the Coldform, in the <code>&lt;legend&gt;</code> tag.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_success]"><?php _e('Success Message'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_success]"><?php _e('Success Message', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_success]"><?php echo esc_textarea($contact_coldform_options['coldform_success']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('When the form is sucessfully submitted, this success message will be displayed to the sender.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('When the form is sucessfully submitted, this success message will be displayed to the sender.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_thanks]"><?php _e('Thank You Message'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_thanks]"><?php _e('Thank You Message', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_thanks]"><?php echo esc_textarea($contact_coldform_options['coldform_thanks']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('When the form is sucessfully submitted, this thank-you message will be displayed to the sender.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('When the form is sucessfully submitted, this thank-you message will be displayed to the sender.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_spam]"><?php _e('Incorrect Response'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_spam]"><?php _e('Incorrect Response', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_spam]"><?php echo esc_textarea($contact_coldform_options['coldform_spam']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('When the challenge question is answered incorrectly, this message will be displayed.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('When the challenge question is answered incorrectly, this message will be displayed.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_error]"><?php _e('Error Message'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_error]"><?php _e('Error Message', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_error]"><?php echo esc_textarea($contact_coldform_options['coldform_error']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('If the user skips a required field, this message will be displayed.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('If the user skips a required field, this message will be displayed.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_style]"><?php _e('Error Fields'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_style]"><?php _e('Error Fields', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_style]"><?php echo esc_textarea($contact_coldform_options['coldform_style']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('Here you may specify the default CSS for error fields, or add other attributes.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('Here you may specify the default CSS for error fields, or add other attributes.', 'coldform'); ?></div></td>
 									</tr>
 								</table>
 							</div>
-							<input type="submit" class="button-primary" value="<?php _e('Save Settings'); ?>" />
+							<input type="submit" class="button-primary" value="<?php _e('Save Settings', 'coldform'); ?>" />
 						</div>
 					</div>
 					<div id="mm-panel-tertiary" class="postbox">
-						<h3><?php _e('Appearance &amp; Styles'); ?></h3>
+						<h3><?php _e('Appearance &amp; Styles', 'coldform'); ?></h3>
 						<div class="toggle<?php if (!isset($_GET["settings-updated"])) { echo ' default-hidden'; } ?>">
-							<h4><?php _e('Coldskin'); ?></h4>
-							<p><?php _e('Default Coldskin styles are enabled by default. Here you may choose different Coldskin and/or add your own custom CSS styles. Note: for a complete list of CSS hooks for the Coldform, visit:'); ?> 
+							<h4><?php _e('Coldskin', 'coldform'); ?></h4>
+							<p><?php _e('Default Coldskin styles are enabled by default. Here you may choose different Coldskin and/or add your own custom CSS styles. Note: for a complete list of CSS hooks for the Coldform, visit:', 'coldform'); ?> 
 								<a href="http://m0n.co/b" target="_blank">http://m0n.co/b</a></p>
 							<div class="mm-table-wrap">
 								<table class="widefat mm-table">
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_coldskin]"><?php _e('Choose a Coldskin'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_coldskin]"><?php _e('Choose a Coldskin', 'coldform'); ?></label></th>
 										<td>
 											<?php if (!isset($checked)) $checked = '';
 												foreach ($coldform_coldskins as $coldform_coldskin) {
@@ -787,55 +811,55 @@ function contact_coldform_render_form() {
 										</td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_styles]"><?php _e('Enable Coldskin?'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_styles]"><?php _e('Enable Coldskin?', 'coldform'); ?></label></th>
 										<td><input name="contact_coldform_options[coldform_styles]" type="checkbox" value="1" <?php if (isset($contact_coldform_options['coldform_styles'])) { checked('1', $contact_coldform_options['coldform_styles']); } ?> /> 
-										<?php _e('Here you may enable/disable the Coldskin selected above.'); ?></td>
+										<?php _e('Here you may enable/disable the Coldskin selected above.', 'coldform'); ?></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_custom]"><?php _e('Custom Styles'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_custom]"><?php _e('Custom Styles', 'coldform'); ?></label></th>
 										<td><textarea class="textarea" rows="3" cols="50" name="contact_coldform_options[coldform_custom]"><?php echo esc_textarea($contact_coldform_options['coldform_custom']); ?></textarea>
-										<div class="mm-item-caption"><?php _e('Here you may use any additional CSS to style the Coldform. For example:'); ?>
-										<code>#coldform { margin: 10px; }</code> <?php _e('(do not include'); ?> <code>&lt;style&gt;</code> <?php _e('tags). Leave blank to disable.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('Here you may use any additional CSS to style the Coldform. For example:', 'coldform'); ?>
+										<code>#coldform { margin: 10px; }</code> <?php _e('(do not include', 'coldform'); ?> <code>&lt;style&gt;</code> <?php _e('tags). Leave blank to disable.', 'coldform'); ?></div></td>
 									</tr>
 									<tr>
-										<th scope="row"><label class="description" for="contact_coldform_options[coldform_url]"><?php _e('Coldform URL'); ?></label></th>
+										<th scope="row"><label class="description" for="contact_coldform_options[coldform_url]"><?php _e('Coldform URL', 'coldform'); ?></label></th>
 										<td><input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_url]" value="<?php echo $contact_coldform_options['coldform_url']; ?>" />
-										<div class="mm-item-caption"><?php _e('By default, Coldform displays enabled styles on <em>every</em> page. To prevent this, and to display CSS styles only for the Coldform, enter the URL where it&rsquo;s displayed.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('By default, Coldform displays enabled styles on <em>every</em> page. To prevent this, and to display CSS styles only for the Coldform, enter the URL where it&rsquo;s displayed.', 'coldform'); ?></div></td>
 									</tr>
 								</table>
 							</div>
-							<input type="submit" class="button-primary" value="<?php _e('Save Settings'); ?>" />
+							<input type="submit" class="button-primary" value="<?php _e('Save Settings', 'coldform'); ?>" />
 						</div>
 					</div>
 					<div id="mm-panel-secondary" class="postbox">
-						<h3><?php _e('Shortcodes &amp; Template Tags'); ?></h3>
+						<h3><?php _e('Shortcodes &amp; Template Tags', 'coldform'); ?></h3>
 						<div class="toggle<?php if (!isset($_GET["settings-updated"])) { echo ' default-hidden'; } ?>">
-							<h4><?php _e('Shortcode'); ?></h4>
-							<p><?php _e('Use this shortcode to display the Coldform on a post or page:'); ?></p>
+							<h4><?php _e('Shortcode', 'coldform'); ?></h4>
+							<p><?php _e('Use this shortcode to display the Coldform on a post or page:', 'coldform'); ?></p>
 							<p><code class="mm-code">[coldform]</code></p>
-							<h4><?php _e('Template tag'); ?></h4>
-							<p><?php _e('Use this template tag to display the Coldform anywhere in your theme template:'); ?></p>
+							<h4><?php _e('Template tag', 'coldform'); ?></h4>
+							<p><?php _e('Use this template tag to display the Coldform anywhere in your theme template:', 'coldform'); ?></p>
 							<p><code class="mm-code">&lt;?php if (function_exists('contact_coldform_public')) contact_coldform_public(); ?&gt;</code></p>
 						</div>
 					</div>
 					<div id="mm-restore-settings" class="postbox">
-						<h3><?php _e('Restore Default Options'); ?></h3>
+						<h3><?php _e('Restore Default Options', 'coldform'); ?></h3>
 						<div class="toggle<?php if (!isset($_GET["settings-updated"])) { echo ' default-hidden'; } ?>">
 							<p>
 								<input name="contact_coldform_options[default_options]" type="checkbox" value="1" id="mm_restore_defaults" <?php if (isset($contact_coldform_options['default_options'])) { checked('1', $contact_coldform_options['default_options']); } ?> /> 
-								<label class="description" for="contact_coldform_options[default_options]"><?php _e('Restore default options upon plugin deactivation/reactivation.'); ?></label>
+								<label class="description" for="contact_coldform_options[default_options]"><?php _e('Restore default options upon plugin deactivation/reactivation.', 'coldform'); ?></label>
 							</p>
 							<p>
 								<small>
-									<?php _e('<strong>Tip:</strong> leave this option unchecked to remember your settings. Or, to go ahead and restore all default options, check the box, save your settings, and then deactivate/reactivate the plugin.'); ?>
+									<?php _e('<strong>Tip:</strong> leave this option unchecked to remember your settings. Or, to go ahead and restore all default options, check the box, save your settings, and then deactivate/reactivate the plugin.', 'coldform'); ?>
 								</small>
 							</p>
-							<input type="submit" class="button-primary" value="<?php _e('Save Settings'); ?>" />
+							<input type="submit" class="button-primary" value="<?php _e('Save Settings', 'coldform'); ?>" />
 						</div>
 					</div>
 					<div id="mm-panel-current" class="postbox">
-						<h3><?php _e('Updates &amp; Info'); ?></h3>
-						<div class="toggle default-hidden">
+						<h3><?php _e('Updates &amp; Info', 'coldform'); ?></h3>
+						<div class="toggle">
 							<div id="mm-iframe-wrap">
 								<iframe src="http://perishablepress.com/current/index-cc.html"></iframe>
 							</div>
@@ -879,7 +903,7 @@ function contact_coldform_render_form() {
 			// prevent accidents
 			if(!jQuery("#mm_restore_defaults").is(":checked")){
 				jQuery('#mm_restore_defaults').click(function(event){
-					var r = confirm("<?php _e('Are you sure you want to restore all default options? (this action cannot be undone)'); ?>");
+					var r = confirm("<?php _e('Are you sure you want to restore all default options? (this action cannot be undone)', 'coldform'); ?>");
 					if (r == true){  
 						jQuery("#mm_restore_defaults").attr('checked', true);
 					} else {

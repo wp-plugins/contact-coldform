@@ -7,11 +7,11 @@ Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Contributors: specialk
-Donate link: http://digwp.com/book/
+Donate link: http://wp-tao.com/
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 20130103
-Version: 20130103
+Stable tag: 20130704
+Version: 20130704
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -98,6 +98,13 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 
 == Changelog ==
 
+= Version 20130704 =
+
+* Added localization support
+* Cleaned/updated/optimize code
+* Overview and Updates admin panels now open by default
+* resolve PHP Notices for "Undefined variable" and "Undefined Index"
+
 = Version 20130103 =
 
 * Added margins to buttons (now required due to CSS changes in WP 3.5)
@@ -144,6 +151,6 @@ To ask a question, visit the [Coldform Homepage](http://perishablepress.com/cont
 
 == Donations ==
 
-I created this plugin with love for the WP community. To show support, consider purchasing my new book, [.htaccess made easy](http://htaccessbook.com/), or my WordPress book, [Digging into WordPress](http://digwp.com/).
+I created this plugin with love for the WP community. To show support, consider purchasing one of my books: [The Tao of WordPress](http://wp-tao.com/), [TDigging into WordPress](http://digwp.com/), or [.htaccess made easy](http://htaccessbook.com/).
 
 Links, tweets and likes also appreciated. Thanks! :)
