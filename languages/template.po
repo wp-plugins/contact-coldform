@@ -1,0 +1,425 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Contact Coldform\n"
+"POT-Creation-Date: 2013-07-04 16:11-0800\n"
+"PO-Revision-Date: 2013-07-04 16:12-0800\n"
+"Last-Translator: Jeff Starr <http://perishablepress.com/contact/>\n"
+"Language-Team: Monzilla Media <http://perishablepress.com/contact/>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.6\n"
+"X-Poedit-KeywordsList: _;__;_e;_n;_x\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../contact-coldform.php:22
+msgid "Contact Coldform"
+msgstr ""
+
+#: ../contact-coldform.php:34
+msgid "requires WordPress 3.0 or higher, and has been deactivated!"
+msgstr ""
+
+#: ../contact-coldform.php:35
+msgid "Please return to the "
+msgstr ""
+
+#: ../contact-coldform.php:35
+msgid "WordPress Admin area"
+msgstr ""
+
+#: ../contact-coldform.php:35
+msgid "to upgrade WordPress and try again."
+msgstr ""
+
+#: ../contact-coldform.php:410
+msgid "Settings"
+msgstr ""
+
+#: ../contact-coldform.php:552
+msgid "Default styles"
+msgstr ""
+
+#: ../contact-coldform.php:556
+msgid "Classic styles"
+msgstr ""
+
+#: ../contact-coldform.php:560
+msgid "Dark styles"
+msgstr ""
+
+#: ../contact-coldform.php:617
+msgid "Toggle all panels"
+msgstr ""
+
+#: ../contact-coldform.php:625
+msgid "Overview"
+msgstr ""
+
+#: ../contact-coldform.php:629
+msgid ""
+" delivers a lightweight, clean-markup contact-form that doesn&rsquo;t "
+"require JavaScript."
+msgstr ""
+
+#: ../contact-coldform.php:630
+msgid ""
+"Use the shortcode to display the Coldform on a post or page. Use the "
+"template tag to display the Coldform anywhere in your theme template."
+msgstr ""
+
+#: ../contact-coldform.php:633
+msgid "To configure the Coldform, visit the"
+msgstr ""
+
+#: ../contact-coldform.php:633 ../contact-coldform.php:642
+msgid "Coldform Options"
+msgstr ""
+
+#: ../contact-coldform.php:634
+msgid "For the shortcode and template tag, visit"
+msgstr ""
+
+#: ../contact-coldform.php:634 ../contact-coldform.php:834
+msgid "Shortcodes &amp; Template Tags"
+msgstr ""
+
+#: ../contact-coldform.php:635
+msgid ""
+"By default, some basic CSS styles are applied to the Coldform. To choose "
+"different styles and to customize further, visit"
+msgstr ""
+
+#: ../contact-coldform.php:635 ../contact-coldform.php:785
+msgid "Appearance &amp; Styles"
+msgstr ""
+
+#: ../contact-coldform.php:636
+msgid "For more information check the <code>readme.txt</code> and"
+msgstr ""
+
+#: ../contact-coldform.php:636
+msgid "Coldform Homepage"
+msgstr ""
+
+#: ../contact-coldform.php:644
+msgid "Use these settings to configure and customize Contact Coldform."
+msgstr ""
+
+#: ../contact-coldform.php:645
+msgid "General options"
+msgstr ""
+
+#: ../contact-coldform.php:649
+msgid "Your Email"
+msgstr ""
+
+#: ../contact-coldform.php:651
+msgid "Where shall Coldform send your messages?"
+msgstr ""
+
+#: ../contact-coldform.php:654
+msgid "Your Name"
+msgstr ""
+
+#: ../contact-coldform.php:656
+msgid "To whom shall Coldform address your messages?"
+msgstr ""
+
+#: ../contact-coldform.php:659
+msgid "Your Website"
+msgstr ""
+
+#: ../contact-coldform.php:661
+msgid "What is the name of your blog or website?"
+msgstr ""
+
+#: ../contact-coldform.php:664
+msgid "Default Subject"
+msgstr ""
+
+#: ../contact-coldform.php:666
+msgid "This will be the subject of the email if none is specified."
+msgstr ""
+
+#: ../contact-coldform.php:669
+msgid "Subject Prefix"
+msgstr ""
+
+#: ../contact-coldform.php:671
+msgid "This will be prepended to any subject specified by the sender."
+msgstr ""
+
+#: ../contact-coldform.php:674
+msgid "Challenge Question"
+msgstr ""
+
+#: ../contact-coldform.php:676
+msgid "This question must be answered correctly before mail is sent."
+msgstr ""
+
+#: ../contact-coldform.php:679
+msgid "Challenge Response"
+msgstr ""
+
+#: ../contact-coldform.php:681
+msgid "This is the only correct answer to the challenge question."
+msgstr ""
+
+#: ../contact-coldform.php:684
+msgid "Case Sensitivity"
+msgstr ""
+
+#: ../contact-coldform.php:686
+msgid "Check this box if the challenge response should be case-insensitive."
+msgstr ""
+
+#: ../contact-coldform.php:689
+msgid "Trust Registered Users"
+msgstr ""
+
+#: ../contact-coldform.php:691
+msgid "Check this box to disable the challenge question for registered users."
+msgstr ""
+
+#: ../contact-coldform.php:694
+msgid "Carbon Copies"
+msgstr ""
+
+#: ../contact-coldform.php:696
+msgid "Check this box if you want to enable users to receive carbon copies."
+msgstr ""
+
+#: ../contact-coldform.php:699
+msgid "Time Offset"
+msgstr ""
+
+#: ../contact-coldform.php:703
+msgid "Please specify any time offset here. If no offset, enter \"0\" (zero)."
+msgstr ""
+
+#: ../contact-coldform.php:704
+msgid "Current Coldform time:"
+msgstr ""
+
+#: ../contact-coldform.php:710
+msgid "Coldform captions"
+msgstr ""
+
+#: ../contact-coldform.php:714
+msgid "Caption for Name Field"
+msgstr ""
+
+#: ../contact-coldform.php:716
+msgid "This is the caption that corresponds with the Name field."
+msgstr ""
+
+#: ../contact-coldform.php:719
+msgid "Caption for Email Field"
+msgstr ""
+
+#: ../contact-coldform.php:721
+msgid "This is the caption that corresponds with the Email field."
+msgstr ""
+
+#: ../contact-coldform.php:724
+msgid "Caption for Website Field"
+msgstr ""
+
+#: ../contact-coldform.php:726
+msgid "This is the caption that corresponds with the Website field."
+msgstr ""
+
+#: ../contact-coldform.php:729
+msgid "Caption for Subject Field"
+msgstr ""
+
+#: ../contact-coldform.php:731
+msgid "This is the caption that corresponds with the Subject field."
+msgstr ""
+
+#: ../contact-coldform.php:734
+msgid "Caption for Message Field"
+msgstr ""
+
+#: ../contact-coldform.php:736
+msgid "This is the caption that corresponds with the Message field."
+msgstr ""
+
+#: ../contact-coldform.php:739
+msgid "Caption for Carbon Copy"
+msgstr ""
+
+#: ../contact-coldform.php:741
+msgid "This caption corresponds with the Carbon Copy checkbox."
+msgstr ""
+
+#: ../contact-coldform.php:745
+msgid "Success &amp; error messages"
+msgstr ""
+
+#: ../contact-coldform.php:746
+msgid ""
+"Note: use single quotes for attributes, for example: "
+"<code>style='margin:10px;color:red;'</code>"
+msgstr ""
+
+#: ../contact-coldform.php:750
+msgid "Welcome Message"
+msgstr ""
+
+#: ../contact-coldform.php:752
+msgid ""
+"This text/markup will appear before the Coldform, in the <code>&lt;legend&gt;"
+"</code> tag."
+msgstr ""
+
+#: ../contact-coldform.php:755
+msgid "Success Message"
+msgstr ""
+
+#: ../contact-coldform.php:757
+msgid ""
+"When the form is sucessfully submitted, this success message will be "
+"displayed to the sender."
+msgstr ""
+
+#: ../contact-coldform.php:760
+msgid "Thank You Message"
+msgstr ""
+
+#: ../contact-coldform.php:762
+msgid ""
+"When the form is sucessfully submitted, this thank-you message will be "
+"displayed to the sender."
+msgstr ""
+
+#: ../contact-coldform.php:765
+msgid "Incorrect Response"
+msgstr ""
+
+#: ../contact-coldform.php:767
+msgid ""
+"When the challenge question is answered incorrectly, this message will be "
+"displayed."
+msgstr ""
+
+#: ../contact-coldform.php:770
+msgid "Error Message"
+msgstr ""
+
+#: ../contact-coldform.php:772
+msgid "If the user skips a required field, this message will be displayed."
+msgstr ""
+
+#: ../contact-coldform.php:775
+msgid "Error Fields"
+msgstr ""
+
+#: ../contact-coldform.php:777
+msgid ""
+"Here you may specify the default CSS for error fields, or add other "
+"attributes."
+msgstr ""
+
+#: ../contact-coldform.php:781 ../contact-coldform.php:830
+#: ../contact-coldform.php:856
+msgid "Save Settings"
+msgstr ""
+
+#: ../contact-coldform.php:787
+msgid "Coldskin"
+msgstr ""
+
+#: ../contact-coldform.php:788
+msgid ""
+"Default Coldskin styles are enabled by default. Here you may choose "
+"different Coldskin and/or add your own custom CSS styles. Note: for a "
+"complete list of CSS hooks for the Coldform, visit:"
+msgstr ""
+
+#: ../contact-coldform.php:793
+msgid "Choose a Coldskin"
+msgstr ""
+
+#: ../contact-coldform.php:813
+msgid "Enable Coldskin?"
+msgstr ""
+
+#: ../contact-coldform.php:815
+msgid "Here you may enable/disable the Coldskin selected above."
+msgstr ""
+
+#: ../contact-coldform.php:818
+msgid "Custom Styles"
+msgstr ""
+
+#: ../contact-coldform.php:820
+msgid "Here you may use any additional CSS to style the Coldform. For example:"
+msgstr ""
+
+#: ../contact-coldform.php:821
+msgid "(do not include"
+msgstr ""
+
+#: ../contact-coldform.php:821
+msgid "tags). Leave blank to disable."
+msgstr ""
+
+#: ../contact-coldform.php:824
+msgid "Coldform URL"
+msgstr ""
+
+#: ../contact-coldform.php:826
+msgid ""
+"By default, Coldform displays enabled styles on <em>every</em> page. To "
+"prevent this, and to display CSS styles only for the Coldform, enter the URL "
+"where it&rsquo;s displayed."
+msgstr ""
+
+#: ../contact-coldform.php:836
+msgid "Shortcode"
+msgstr ""
+
+#: ../contact-coldform.php:837
+msgid "Use this shortcode to display the Coldform on a post or page:"
+msgstr ""
+
+#: ../contact-coldform.php:839
+msgid "Template tag"
+msgstr ""
+
+#: ../contact-coldform.php:840
+msgid ""
+"Use this template tag to display the Coldform anywhere in your theme "
+"template:"
+msgstr ""
+
+#: ../contact-coldform.php:845
+msgid "Restore Default Options"
+msgstr ""
+
+#: ../contact-coldform.php:849
+msgid "Restore default options upon plugin deactivation/reactivation."
+msgstr ""
+
+#: ../contact-coldform.php:853
+msgid ""
+"<strong>Tip:</strong> leave this option unchecked to remember your settings. "
+"Or, to go ahead and restore all default options, check the box, save your "
+"settings, and then deactivate/reactivate the plugin."
+msgstr ""
+
+#: ../contact-coldform.php:860
+msgid "Updates &amp; Info"
+msgstr ""
+
+#: ../contact-coldform.php:905
+msgid ""
+"Are you sure you want to restore all default options? (this action cannot be "
+"undone)"
+msgstr ""
