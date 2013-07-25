@@ -20,7 +20,7 @@ if (!function_exists('add_action')) die('&Delta;');
 
 load_plugin_textdomain('coldform', false, dirname( plugin_basename( __FILE__ ) ).'/languages');
  
-$contact_coldform_version = '20130704';
+$contact_coldform_version = '20130725';
 
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
