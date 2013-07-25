@@ -9,12 +9,14 @@ Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 20130704
-Version: 20130704
+Stable tag: trunk
+Version: 20130725
 License: GPL v2
 */
 
 // NO EDITING REQUIRED - PLEASE SET PREFERENCES IN THE WP ADMIN!
+
+if (!function_exists('add_action')) die('&Delta;');
 
 load_plugin_textdomain('coldform', false, dirname( plugin_basename( __FILE__ ) ).'/languages');
  
@@ -118,12 +120,12 @@ function contact_coldform_input_filter() {
 	$coldform_quest = $contact_coldform_options['coldform_question'];
 	$pass = true;
 
-	if (isset($_POST['coldform_name'])) $coldform_name = stripslashes(trim($_POST['coldform_name']));
-	if (isset($_POST['coldform_email'])) $coldform_email = stripslashes(trim($_POST['coldform_email']));
-	if (isset($_POST['coldform_topic'])) $coldform_topic = stripslashes(trim($_POST['coldform_topic']));
-	if (isset($_POST['coldform_website'])) $coldform_website = stripslashes(trim($_POST['coldform_website']));
-	if (isset($_POST['coldform_message'])) $coldform_message = stripslashes(trim($_POST['coldform_message']));
-	if (isset($_POST['coldform_response'])) $coldform_response = stripslashes(trim($_POST['coldform_response']));
+	if (isset($_POST['coldform_name'])) $coldform_name = htmlentities(stripslashes(trim($_POST['coldform_name'])));
+	if (isset($_POST['coldform_email'])) $coldform_email = htmlentities(stripslashes(trim($_POST['coldform_email'])));
+	if (isset($_POST['coldform_topic'])) $coldform_topic = htmlentities(stripslashes(trim($_POST['coldform_topic'])));
+	if (isset($_POST['coldform_website'])) $coldform_website = htmlentities(stripslashes(trim($_POST['coldform_website'])));
+	if (isset($_POST['coldform_message'])) $coldform_message = htmlentities(stripslashes(trim($_POST['coldform_message'])));
+	if (isset($_POST['coldform_response'])) $coldform_response = htmlentities(stripslashes(trim($_POST['coldform_response'])));
 
 	if (!isset($_POST['coldform_key'])) { 
 		return false; 
@@ -313,8 +315,8 @@ function contact_coldform_display_form() {
 function contact_coldform($content='') {
 	global $contact_coldform_options, $contact_coldform_strings;
 
-	$prefix_topic = $contact_coldform_options['coldform_prefix'] . $_POST['coldform_topic'];
-	$user_topic = $_POST['coldform_topic'];
+	$prefix_topic = $contact_coldform_options['coldform_prefix'] . htmlentities($_POST['coldform_topic']);
+	$user_topic = htmlentities($_POST['coldform_topic']);
 
 	if (empty($_POST['coldform_topic'])) {
 		$topic = $contact_coldform_options['coldform_subject'];
@@ -329,20 +331,20 @@ function contact_coldform($content='') {
 	if (empty($_POST['coldform_website'])) {
 		$website = "No website specified.";
 	} elseif (!empty($_POST['coldform_website'])) {
-		$website = $_POST['coldform_website'];
+		$website = htmlentities($_POST['coldform_website']);
 	}
 	$recipient = $contact_coldform_options['coldform_email'];
 	$recipname = $contact_coldform_options['coldform_name'];
 	$recipsite = $contact_coldform_options['coldform_website'];
 	$success   = $contact_coldform_options['coldform_success'];
 	$thanks    = $contact_coldform_options['coldform_thanks'];
-	$name      = $_POST['coldform_name'];
-	$email     = $_POST['coldform_email'];
+	$name      = htmlentities($_POST['coldform_name']);
+	$email     = htmlentities($_POST['coldform_email']);
 
 	$senderip  = contact_coldform_get_ip_address();
 	$offset    = $contact_coldform_options['gmt_offset'];
-	$agent     = $_SERVER['HTTP_USER_AGENT'];
-	$form      = getenv("HTTP_REFERER");
+	$agent     = htmlentities($_SERVER['HTTP_USER_AGENT']);
+	$form      = htmlentities(getenv("HTTP_REFERER"));
 	$host      = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$offset    = $contact_coldform_options['coldform_offset'];
 	$date      = date("l, F jS, Y @ g:i a", time()+$offset*60*60);
@@ -351,7 +353,7 @@ function contact_coldform($content='') {
 	$headers  .= "From: $name <$email>\n";
 	$headers  .= "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 
-	$message   = $_POST['coldform_message'];
+	$message   = htmlentities($_POST['coldform_message']);
 	$message   = wordwrap($message, 77, "\n");
 	$fullmsg   = "Hello $recipname,
 
