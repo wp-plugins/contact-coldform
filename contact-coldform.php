@@ -8,19 +8,19 @@ Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Requires at least: 3.0
-Tested up to: 3.5
+Tested up to: 3.7
 Stable tag: trunk
-Version: 20130725
+Version: 20131103
 License: GPL v2
 */
 
 // NO EDITING REQUIRED - PLEASE SET PREFERENCES IN THE WP ADMIN!
 
-if (!function_exists('add_action')) die('&Delta;');
+if (!function_exists('add_action')) die();
 
 load_plugin_textdomain('coldform', false, dirname( plugin_basename( __FILE__ ) ).'/languages');
  
-$contact_coldform_version = '20130725';
+$contact_coldform_version = '20131103';
 
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');

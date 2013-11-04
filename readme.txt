@@ -9,9 +9,9 @@ Author URI: http://monzilla.biz/
 Contributors: specialk
 Donate link: http://wp-tao.com/
 Requires at least: 3.0
-Tested up to: 3.5
+Tested up to: 3.7
 Stable tag: trunk
-Version: 20130725
+Version: 20131103
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -76,8 +76,8 @@ Coldform brings delicious code on every front:
 Typical plugin install: upload, activate, and customize in the WP Admin.
 
 1. Unzip and upload the entire directory to your "plugins" folder and activate
-2. Use the shortcode to display Coldform on any post or page, or:
-3. Use the template tag to display the Coldform anywhere in your theme.
+2. Use the shortcode to display Coldform on any Post or Page, or:
+3. Use the template tag to display the Coldform anywhere in your theme template.
 4. Visit the Coldform Settings Page to configure your options and for more info.
 
 Shortcode: `[coldform]`
@@ -90,13 +90,19 @@ For more information, visit the [Coldform Homepage](http://perishablepress.com/c
 
 == Upgrade Notice ==
 
-__Important!__ Many things have changed in the new version of the plugin. Please copy/paste your current Coldform settings to a safe place. Then update the plugin as usual, using your saved settings while configuring the new version.
+__Important!__ Many things have changed in the new version of the plugin. Please copy/paste your current Coldform settings to a safe place. Then update the plugin as usual and compare the current settings with the previous ones. You know, just to make sure it's all good.
 
 == Screenshots ==
 
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20131103 =
+
+* Edited readme.txt install steps for clarity
+* Removed "&Delta;" from die() for better security
+* Tested plugin with current version of WordPress (3.7) 
 
 = Version 20130725 =
 
@@ -153,7 +159,17 @@ Screenshots available at the [Coldform Homepage](http://perishablepress.com/cont
 
 == Frequently Asked Questions ==
 
-To ask a question, visit the [Coldform Homepage](http://perishablepress.com/contact-coldform/) or [contact me](http://perishablepress.com/contact/).
+Question: "Where does the shortcode go? Where does the template tag go?"
+
+Answer: The shortcode may be used on any Post or Page. For example, if you log in to the Admin Area and view a Page named "Contact", you can add the shortcode anywhere in the Page content to display the form. To use the template tag, add it to the desired location in your theme template. For example, if you have a custom page template named "page-contact.php", you could add the template tag directly after `<?php the_content(); ?>` to display the form.
+
+Question: "Where do the [CSS hooks](http://m0n.co/b) go? How do I change the CSS for the form?"
+
+Answer: Visit the "Appearance and Styles" panel in the plugin settings. There you may configure appearance and add custom CSS for the form.
+
+= Questions? =
+
+I try to keep an eye on the WordPress forums, but it's best to [contact me](http://perishablepress.com/contact/) directly with questions or concerns. Thanks.
 
 == Donations ==
 
