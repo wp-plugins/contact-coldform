@@ -11,7 +11,7 @@ Donate link: http://wp-tao.com/
 Requires at least: 3.0
 Tested up to: 3.7
 Stable tag: trunk
-Version: 20131103
+Version: 20131107
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +97,12 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20131107 =
+
+* Added uninstall.php file
+* Added "rate this plugin" links
+* Added support for i18n
 
 = Version 20131103 =
 
