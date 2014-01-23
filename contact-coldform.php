@@ -8,9 +8,9 @@ Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Requires at least: 3.0
-Tested up to: 3.7
+Tested up to: 3.8
 Stable tag: trunk
-Version: 20131107
+Version: 20140123
 License: GPL v2
 */
 
@@ -20,11 +20,11 @@ if (!function_exists('add_action')) die();
 
 // i18n
 function coldform_i18n_init() {
-	load_plugin_textdomain('coldform', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	load_plugin_textdomain('coldform', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'coldform_i18n_init');
  
-$contact_coldform_version = '20131107';
+$contact_coldform_version = '20140123';
 
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
@@ -246,17 +246,21 @@ function contact_coldform_display_form() {
 	$messtext = $contact_coldform_options['coldform_messtext'];
 	$copytext = $contact_coldform_options['coldform_copytext'];
 	$lgndtext = $contact_coldform_options['coldform_welcome'];
+	$captcha  = $contact_coldform_options['display_captcha'];
 
 	if ($contact_coldform_options['coldform_custom'] !== '') {
 		$coldform_custom = '<style type="text/css">' . $contact_coldform_options['coldform_custom'] . '</style>';
 	} else { $coldform_custom = ''; }
 
+	$coldform_captcha = '';
 	if ($contact_coldform_options['coldform_trust'] == false) {
-		$coldform_captcha = '<fieldset class="coldform-response">
+		if ($captcha) {
+			$coldform_captcha = '<fieldset class="coldform-response">
 					<label for="coldform_response">' . $question . '</label>
 					' . $contact_coldform_strings['response'] . '
 				</fieldset>';
-	} else { $coldform_captcha = ''; }
+		}
+	}
 
 	if ($contact_coldform_options['coldform_carbon'] == true) {
 		$coldform_carbon = '<fieldset class="coldform-carbon">
@@ -480,6 +484,7 @@ function contact_coldform_add_defaults() {
 			'coldform_url'      => '',
 			'coldform_thanks'   => '<p class=\'coldform-thanks\'><span>Thanks for contacting me.</span> The following information has been sent via email:</p>',
 			'coldform_welcome'  => '<strong>Hello!</strong> Please use this contact form to send us an email.',
+			'display_captcha'   => true,
 		);
 		update_option('contact_coldform_options', $arr);
 	}
@@ -549,6 +554,9 @@ function contact_coldform_validate_options($input) {
 
 	if (!isset($input['coldform_styles'])) $input['coldform_styles'] = null;
 	$input['coldform_styles'] = ($input['coldform_styles'] == 1 ? 1 : 0);
+
+	if (!isset($input['display_captcha'])) $input['display_captcha'] = null;
+	$input['display_captcha'] = ($input['display_captcha'] == 1 ? 1 : 0);
 
 	if (!isset($input['coldform_coldskin'])) $input['coldform_coldskin'] = null;
 	if (!array_key_exists($input['coldform_coldskin'], $coldform_coldskins)) $input['coldform_coldskin'] = null;
@@ -706,6 +714,11 @@ function contact_coldform_render_form() {
 										<th scope="row"><label class="description" for="contact_coldform_options[coldform_casing]"><?php _e('Case Sensitivity', 'coldform'); ?></label></th>
 										<td><input type="checkbox" name="contact_coldform_options[coldform_casing]" value="1" <?php if (isset($contact_coldform_options['coldform_casing'])) { checked('1', $contact_coldform_options['coldform_casing']); } ?> /> 
 										<?php _e('Check this box if the challenge response should be case-insensitive.', 'coldform'); ?></td>
+									</tr>
+									<tr>
+										<th scope="row"><label class="description" for="contact_coldform_options[display_captcha]"><?php _e('Display Captcha', 'coldform'); ?></label></th>
+										<td><input type="checkbox" name="contact_coldform_options[display_captcha]" value="1" <?php if (isset($contact_coldform_options['display_captcha'])) { checked('1', $contact_coldform_options['display_captcha']); } ?> /> 
+										<?php _e('Check this box to display the anti-spam/captcha field.', 'coldform'); ?></td>
 									</tr>
 									<tr>
 										<th scope="row"><label class="description" for="contact_coldform_options[coldform_trust]"><?php _e('Trust Registered Users', 'coldform'); ?></label></th>

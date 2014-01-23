@@ -9,9 +9,9 @@ Author URI: http://monzilla.biz/
 Contributors: specialk
 Donate link: http://wp-tao.com/
 Requires at least: 3.0
-Tested up to: 3.7
+Tested up to: 3.8
 Stable tag: trunk
-Version: 20131107
+Version: 20140123
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +97,12 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20140123 =
+
+* Tested with latest version of WordPress (3.8)
+* Added option to display or not display the anti-spam/captcha field
+* Added trailing slash to URL for load_plugin_textdomain()
 
 = Version 20131107 =
 
