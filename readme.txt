@@ -11,7 +11,7 @@ Donate link: http://wp-tao.com/
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: trunk
-Version: 20140123
+Version: 20140305
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +97,14 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20140305 =
+
+* Improved localization support
+* Generated new mo/po templates
+* Bugfix: undefined index: coldform_carbon 
+* Bugfix: replaced 'gmt_offset' with 'coldform_offset'
+* Update: changed the description and default option for GMT setting
 
 = Version 20140123 =
 

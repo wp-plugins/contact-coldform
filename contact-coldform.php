@@ -10,7 +10,7 @@ Donate link: http://m0n.co/donate
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: trunk
-Version: 20140123
+Version: 20140305
 License: GPL v2
 */
 
@@ -24,7 +24,7 @@ function coldform_i18n_init() {
 }
 add_action('plugins_loaded', 'coldform_i18n_init');
  
-$contact_coldform_version = '20140123';
+$contact_coldform_version = '20140305';
 
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
@@ -62,10 +62,10 @@ $message = '';
 $verify = '';
 $error = '';
 $contact_coldform_strings = array(
-	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_name . '" placeholder="Your name" />', 
-	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_email . '" placeholder="Your email" />', 
-	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_response . '" placeholder="Please type the correct response" />', 
-	'message'  => '<textarea name="coldform_message" id="coldform_message" cols="33" rows="7" placeholder="Your message">' . $coldform_post_vars_message . '</textarea>', 
+	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_name . '" placeholder="'. __('Your name', 'coldform') .'" />', 
+	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_email . '" placeholder="'. __('Your email', 'coldform') .'" />', 
+	'response' => '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_response . '" placeholder="'. __('Please type the correct response', 'coldform') .'" />', 
+	'message'  => '<textarea name="coldform_message" id="coldform_message" cols="33" rows="7" placeholder="'. __('Your message', 'coldform') .'">' . $coldform_post_vars_message . '</textarea>', 
 	'verify'   => '<input name="coldform_verify" type="text" size="33" maxlength="99" value="" />', 
 	'error'    => '',
 );
@@ -137,12 +137,12 @@ function contact_coldform_input_filter() {
 	if (empty($_POST['coldform_name'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_name) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your name" />';
+		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_name) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your name', 'coldform') .'" />';
 	}
 	if (!is_email($_POST['coldform_email'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_email) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your email" />';
+		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_email) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your email', 'coldform') .'" />';
 	}
 	if (!empty($_POST['coldform_verify'])) { 
 		$pass = false; 
@@ -152,7 +152,7 @@ function contact_coldform_input_filter() {
 	if (empty($_POST['coldform_message'])) {
 		$pass = false; 
 		$fail = 'empty';
-		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" ' . $coldform_style . ' placeholder="Your message">' . htmlentities($coldform_message) . '</textarea>';
+		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your message', 'coldform') .'">' . htmlentities($coldform_message) . '</textarea>';
 	}
 	if (contact_coldform_filter_input($coldform_name) || contact_coldform_filter_input($coldform_email)) {
 		$pass = false; 
@@ -174,13 +174,13 @@ function contact_coldform_input_filter() {
 		return true;
 	} else {
 		if ($fail == 'malicious') {
-			$contact_coldform_strings['error'] = "<p class='coldform-error'>Please do not include any of the following in the Name or Email fields: linebreaks, or the phrases 'mime-version', 'content-type', 'cc:' or 'to:'.</p>";
+			$contact_coldform_strings['error'] = '<p class="coldform-error">'. __('Please do not include any of the following in the Name or Email fields: linebreaks, or the phrases mime-version, content-type, cc: or to:', 'coldform') .'</p>';
 		} elseif ($fail == 'empty') {
 			$contact_coldform_strings['error'] = $contact_coldform_options['coldform_error'];
 		} elseif ($fail == 'wrong') {
 			$contact_coldform_strings['error'] = $contact_coldform_options['coldform_spam'];
 		} elseif ($fail == 'verify') {
-			$contact_coldform_strings['error'] = "<p class='coldform-error'>Please leave the human-verification field empty and try again.</p>";
+			$contact_coldform_strings['error'] = '<p class="coldform-error">'. __('Please leave the human-verification field empty and try again.', 'coldform') .'</p>';
 		}
 		return false;
 	}
@@ -279,7 +279,7 @@ function contact_coldform_display_form() {
 		<!-- Contact Coldform @ http://perishablepress.com/contact-coldform/ -->
 		<div id="coldform">
 			<form action="' . get_permalink() . '" method="post">
-				<legend title="Note: text only, no markup.">' . $lgndtext . '</legend>
+				<legend title="'. __('Note: text only, no markup.', 'coldform') .'">' . $lgndtext . '</legend>
 				<fieldset class="coldform-name">
 					<label for="coldform_name">' . $nametext . '</label>
 					' . $contact_coldform_strings['name'] . '
@@ -290,11 +290,11 @@ function contact_coldform_display_form() {
 				</fieldset>
 				<fieldset class="coldform-website">
 					<label for="coldform_website">' . $sitetext . '</label>
-					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . $coldform_website . '" placeholder="Your website" />
+					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . $coldform_website . '" placeholder="'. __('Your website', 'coldform') .'" />
 				</fieldset>
 				<fieldset class="coldform_topic">
 					<label for="coldform_topic">' . $subjtext . '</label>
-					<input name="coldform_topic" id="coldform_topic" type="text" size="33" maxlength="177" value="' . $coldform_topic . '" placeholder="Subject of email" />
+					<input name="coldform_topic" id="coldform_topic" type="text" size="33" maxlength="177" value="' . $coldform_topic . '" placeholder="'. __('Subject of email', 'coldform') .'" />
 				</fieldset>
 				' . $coldform_captcha . '
 				<fieldset class="coldform-message">
@@ -302,12 +302,12 @@ function contact_coldform_display_form() {
 					' . $contact_coldform_strings['message'] . '
 				</fieldset>
 				<fieldset id="coldform_verify" style="display:none;">
-					<label for="coldform_verify">Human verification: leave this field empty.</label>
+					<label for="coldform_verify">'. __('Human verification: leave this field empty.', 'coldform') .'</label>
 					' . $contact_coldform_strings['verify'] . '
 				</fieldset>
 				' . $coldform_carbon . '
 				<div class="coldform-submit">
-					<input name="coldform_submit" type="submit" value="Send it!" id="coldform_submit" />
+					<input name="coldform_submit" type="submit" value="'. __('Send it!', 'coldform') .'" id="coldform_submit" />
 					<input name="coldform_key" type="hidden" value="process" />
 				</div>
 			</form>
@@ -332,12 +332,13 @@ function contact_coldform($content='') {
 		$topic = $prefix_topic;
 	}
 	if (empty($_POST['coldform_carbon'])) {
-		$copy  = "No carbon copy sent.";
+		$copy  = __('No carbon copy sent.', 'coldform');
 	} elseif (!empty($_POST['coldform_carbon'])) {
-		$copy  = "Copy sent to sender.";
+		$copy  = __('Copy sent to sender.', 'coldform');
 	}
 	if (empty($_POST['coldform_website'])) {
-		$website = "No website specified.";
+		$website = __('No website specified.', 'coldform');
+		
 	} elseif (!empty($_POST['coldform_website'])) {
 		$website = htmlentities($_POST['coldform_website']);
 	}
@@ -350,7 +351,7 @@ function contact_coldform($content='') {
 	$email     = htmlentities($_POST['coldform_email']);
 
 	$senderip  = contact_coldform_get_ip_address();
-	$offset    = $contact_coldform_options['gmt_offset'];
+	$offset    = $contact_coldform_options['coldform_offset'];
 	$agent     = htmlentities($_SERVER['HTTP_USER_AGENT']);
 	$form      = htmlentities(getenv("HTTP_REFERER"));
 	$host      = gethostbyaddr($_SERVER['REMOTE_ADDR']);
@@ -391,7 +392,7 @@ Whois:  http://www.arin.net/whois/
 ";
 	$fullmsg = stripslashes(strip_tags(trim($fullmsg)));
 	wp_mail($recipient, $topic, $fullmsg, $headers);
-	if ($_POST['coldform_carbon'] == '1') {
+	if (isset($_POST['coldform_carbon']) && $_POST['coldform_carbon'] == '1') {
 		wp_mail($email, $topic, $fullmsg, $headers);
 	}
 
@@ -407,7 +408,7 @@ Carbon:     ' . $copy    . '
 Website:    ' . $website . '
 Subject:    ' . $user_topic . '
 Message:    ' . $message . '</code></pre>
-<p class="coldform-reset">[ <a href="'.$form.'" title="Click here to reset the form.">Click here to reset the form</a> ]</p>
+<p class="coldform-reset">[ <a href="'.$form.'">'. __('Click here to reset the form.', 'coldform') .'</a> ]</p>
 </div>' . $coldform_custom;
 
 	return $results;
@@ -428,7 +429,7 @@ function contact_coldform_plugin_action_links($links, $file) {
 function add_coldform_links($links, $file) {
 	if ($file == plugin_basename(__FILE__)) {
 		$rate_url = 'http://wordpress.org/support/view/plugin-reviews/' . basename(dirname(__FILE__)) . '?rate=5#postform';
-		$links[] = '<a href="' . $rate_url . '" target="_blank" title="Click here to rate and review this plugin on WordPress.org">Rate this plugin</a>';
+		$links[] = '<a href="' . $rate_url . '" target="_blank" title="'. __('Click here to rate and review this plugin on WordPress.org', 'coldform') .'">'. __('Rate this plugin', 'coldform') .'</a>';
 	}
 	return $links;
 }
@@ -449,7 +450,7 @@ function contact_coldform_add_defaults() {
 	if ($user_info == true) {
 		$admin_name = $user_info->user_login;
 	} else {
-		$admin_name = 'Neo Smith';
+		$admin_name = 'Mr. Smith';
 	}
 	$site_title = get_bloginfo('name');
 	$admin_mail = get_bloginfo('admin_email');
@@ -460,30 +461,30 @@ function contact_coldform_add_defaults() {
 			'coldform_name'     => $admin_name,
 			'coldform_website'  => $site_title,
 			'coldform_email'    => $admin_mail,
-			'coldform_offset'   => 'For example, +1 or -1',
-			'coldform_subject'  => 'Message sent from your contact form',
-			'coldform_success'  => '<p id=\'coldform_success\'>Success! Your message has been sent.</p>',
-			'coldform_error'    => '<p id=\'coldform_error\' class=\'coldform-error\'>Please complete the required fields.</p>',
-			'coldform_spam'     => '<p id=\'coldform_spam\' class=\'coldform-error\'>Incorrect response for challenge question. Please try again.</p>',
+			'coldform_offset'   => '0',
+			'coldform_subject'  => __('Message sent from your contact form', 'coldform'),
+			'coldform_success'  => '<p id=\'coldform_success\'>'. __('Success! Your message has been sent.', 'coldform') .'</p>',
+			'coldform_error'    => '<p id=\'coldform_error\' class=\'coldform-error\'>'. __('Please complete the required fields.', 'coldform') .'</p>',
+			'coldform_spam'     => '<p id=\'coldform_spam\' class=\'coldform-error\'>'. __('Incorrect response for challenge question. Please try again.', 'coldform') .'</p>',
 			'coldform_style'    => 'style=\'border: 1px solid #CC0000;\'',
 			'coldform_question' => '1 + 1 =',
 			'coldform_response' => '2',
 			'coldform_casing'   => false,
 			'coldform_carbon'   => false,
-			'coldform_nametext' => 'Name (Required)',
-			'coldform_mailtext' => 'Email (Required)',
-			'coldform_sitetext' => 'Website (Optional)',
-			'coldform_subjtext' => 'Subject (Optional)',
-			'coldform_messtext' => 'Message (Required)',
-			'coldform_copytext' => 'Carbon Copy?',
-			'coldform_prefix'   => 'Contact Coldform: ',
+			'coldform_nametext' => __('Name (Required)', 'coldform'),
+			'coldform_mailtext' => __('Email (Required)', 'coldform'),
+			'coldform_sitetext' => __('Website (Optional)', 'coldform'),
+			'coldform_subjtext' => __('Subject (Optional)', 'coldform'),
+			'coldform_messtext' => __('Message (Required)', 'coldform'),
+			'coldform_copytext' => __('Carbon Copy?', 'coldform'),
+			'coldform_prefix'   => __('Contact Coldform: ', 'coldform'),
 			'coldform_trust'    => false,
 			'coldform_styles'   => true,
 			'coldform_coldskin' => 'coldskin_default',
 			'coldform_custom'   => '',
 			'coldform_url'      => '',
-			'coldform_thanks'   => '<p class=\'coldform-thanks\'><span>Thanks for contacting me.</span> The following information has been sent via email:</p>',
-			'coldform_welcome'  => '<strong>Hello!</strong> Please use this contact form to send us an email.',
+			'coldform_thanks'   => '<p class=\'coldform-thanks\'><span>'. __('Thanks for contacting me.', 'coldform') .'</span> '. __('The following information has been sent via email:', 'coldform') .'</p>',
+			'coldform_welcome'  => '<strong>'. __('Hello!', 'coldform') .'</strong> '. __('Please use this contact form to send us an email.', 'coldform'),
 			'display_captcha'   => true,
 		);
 		update_option('contact_coldform_options', $arr);
@@ -735,7 +736,7 @@ function contact_coldform_render_form() {
 										<td>
 											<input type="text" size="50" maxlength="200" name="contact_coldform_options[coldform_offset]" value="<?php echo $contact_coldform_options['coldform_offset']; ?>" />
 											<div class="mm-item-caption">
-												<?php _e('Please specify any time offset here. If no offset, enter "0" (zero).', 'coldform'); ?><br />
+												<?php _e('Please specify any time offset here. For example, +7 or -7. If no offset or unsure, enter "0" (zero).', 'coldform'); ?><br />
 												<?php _e('Current Coldform time:', 'coldform'); ?> <?php echo date("l, F jS, Y @ g:i a", time()+$offset*60*60); ?>
 											</div>
 										</td>
