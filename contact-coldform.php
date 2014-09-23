@@ -7,10 +7,10 @@ Tags: contact, form, contact form, email
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
-Requires at least: 3.0
-Tested up to: 3.8
+Requires at least: 3.7
+Tested up to: 4.0
 Stable tag: trunk
-Version: 20140305
+Version: 20140922
 License: GPL v2
 */
 
@@ -24,7 +24,7 @@ function coldform_i18n_init() {
 }
 add_action('plugins_loaded', 'coldform_i18n_init');
  
-$contact_coldform_version = '20140305';
+$contact_coldform_version = '20140922';
 
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
@@ -32,17 +32,19 @@ $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/cont
 $contact_coldform_homeurl = 'http://perishablepress.com/contact-coldform/';
 
 // require minimum version of WordPress
-add_action('admin_init', 'contact_coldform_require_wp_version');
 function contact_coldform_require_wp_version() {
 	global $wp_version, $contact_coldform_path, $contact_coldform_plugin;
-	if (version_compare($wp_version, '3.0', '<')) {
+	if (version_compare($wp_version, '3.7', '<')) {
 		if (is_plugin_active($contact_coldform_path)) {
 			deactivate_plugins($contact_coldform_path);
-			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress 3.0 or higher, and has been deactivated!', 'coldform') . '<br />';
+			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress 3.7 or higher, and has been deactivated!', 'coldform') . '<br />';
 			$msg .= __('Please return to the ', 'coldform') . '<a href="' . admin_url() . '">' . __('WordPress Admin area', 'coldform') . '</a> ' . __('to upgrade WordPress and try again.', 'coldform');
 			wp_die($msg);
 		}
 	}
+}
+if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
+	add_action('admin_init', 'contact_coldform_require_wp_version');
 }
 
 // create inputs
@@ -251,7 +253,7 @@ function contact_coldform_display_form() {
 	if ($contact_coldform_options['coldform_custom'] !== '') {
 		$coldform_custom = '<style type="text/css">' . $contact_coldform_options['coldform_custom'] . '</style>';
 	} else { $coldform_custom = ''; }
-
+	
 	$coldform_captcha = '';
 	if ($contact_coldform_options['coldform_trust'] == false) {
 		if ($captcha) {
@@ -261,19 +263,27 @@ function contact_coldform_display_form() {
 				</fieldset>';
 		}
 	}
-
+	
 	if ($contact_coldform_options['coldform_carbon'] == true) {
 		$coldform_carbon = '<fieldset class="coldform-carbon">
 					<input id="coldform_carbon" name="coldform_carbon" type="checkbox" value="1" checked="checked" /> 
 					<label for="coldform_carbon">' . $copytext . '</label>
 				</fieldset>';
 	} else { $coldform_carbon = ''; }
-
+	
 	$coldform_website = '';
+	$coldform_website_value = '';
+	if (isset($_POST['coldform_website'])) $coldform_website_value = htmlentities($_POST['coldform_website']);
+	if (isset($contact_coldform_options['display_website']) && $contact_coldform_options['display_website'] == true) {
+		$coldform_website = '<fieldset class="coldform-website">
+					<label for="coldform_website">' . $sitetext . '</label>
+					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . $coldform_website_value . '" placeholder="'. __('Your website', 'coldform') .'" />
+				</fieldset>';
+	}
+	
 	$coldform_topic = '';
-	if (isset($_POST['coldform_website'])) $coldform_website = htmlentities($_POST['coldform_website']);
 	if (isset($_POST['coldform_topic'])) $coldform_topic = htmlentities($_POST['coldform_topic']);
-
+	
 	$coldform = (
 		$contact_coldform_strings['error'] . '
 		<!-- Contact Coldform @ http://perishablepress.com/contact-coldform/ -->
@@ -288,10 +298,7 @@ function contact_coldform_display_form() {
 					<label for="coldform_email">' . $mailtext . '</label>
 					' . $contact_coldform_strings['email'] . '
 				</fieldset>
-				<fieldset class="coldform-website">
-					<label for="coldform_website">' . $sitetext . '</label>
-					<input name="coldform_website" id="coldform_website" type="text" size="33" maxlength="177" value="' . $coldform_website . '" placeholder="'. __('Your website', 'coldform') .'" />
-				</fieldset>
+				' . $coldform_website . '
 				<fieldset class="coldform_topic">
 					<label for="coldform_topic">' . $subjtext . '</label>
 					<input name="coldform_topic" id="coldform_topic" type="text" size="33" maxlength="177" value="' . $coldform_topic . '" placeholder="'. __('Subject of email', 'coldform') .'" />
@@ -486,6 +493,7 @@ function contact_coldform_add_defaults() {
 			'coldform_thanks'   => '<p class=\'coldform-thanks\'><span>'. __('Thanks for contacting me.', 'coldform') .'</span> '. __('The following information has been sent via email:', 'coldform') .'</p>',
 			'coldform_welcome'  => '<strong>'. __('Hello!', 'coldform') .'</strong> '. __('Please use this contact form to send us an email.', 'coldform'),
 			'display_captcha'   => true,
+			'display_website'   => true,
 		);
 		update_option('contact_coldform_options', $arr);
 	}
@@ -567,7 +575,10 @@ function contact_coldform_validate_options($input) {
 
 	$input['coldform_thanks'] = wp_kses_post($input['coldform_thanks'], $allowedposttags);
 	$input['coldform_welcome'] = wp_kses_post($input['coldform_welcome'], $allowedposttags);
-
+	
+	if (!isset($input['display_website'])) $input['display_website'] = null;
+	$input['display_website'] = ($input['display_website'] == 1 ? 1 : 0);
+	
 	return $input;
 }
 
@@ -730,6 +741,11 @@ function contact_coldform_render_form() {
 										<th scope="row"><label class="description" for="contact_coldform_options[coldform_carbon]"><?php _e('Carbon Copies', 'coldform'); ?></label></th>
 										<td><input type="checkbox" name="contact_coldform_options[coldform_carbon]" value="1" <?php if (isset($contact_coldform_options['coldform_carbon'])) { checked('1', $contact_coldform_options['coldform_carbon']); } ?> /> 
 										<?php _e('Check this box if you want to enable users to receive carbon copies.', 'coldform'); ?></td>
+									</tr>
+									<tr>
+										<th scope="row"><label class="description" for="contact_coldform_options[display_website]"><?php _e('Display Website Field', 'coldform'); ?></label></th>
+										<td><input type="checkbox" name="contact_coldform_options[display_website]" value="1" <?php if (isset($contact_coldform_options['display_website'])) { checked('1', $contact_coldform_options['display_website']); } ?> /> 
+										<?php _e('Check this box if you want to display the &ldquo;Website&rdquo; field in the contact form.', 'coldform'); ?></td>
 									</tr>
 									<tr>
 										<th scope="row"><label class="description" for="contact_coldform_options[coldform_offset]"><?php _e('Time Offset', 'coldform'); ?></label></th>
@@ -949,4 +965,6 @@ function contact_coldform_render_form() {
 		});
 	</script>
 
-<?php } ?>
+<?php }
+
+

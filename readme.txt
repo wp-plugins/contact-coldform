@@ -8,10 +8,10 @@ Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Contributors: specialk
 Donate link: http://wp-tao.com/
-Requires at least: 3.0
-Tested up to: 3.8
+Requires at least: 3.7
+Tested up to: 4.0
 Stable tag: trunk
-Version: 20140305
+Version: 20140922
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +97,14 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20140922 =
+
+* Tested with latest version of WP (4.0)
+* Added option to show/hide the website field
+* Increased minimum version to WP 3.7
+* Added conditional check for minimum version function
+* Updated mo/po translation files
 
 = Version 20140305 =
 
