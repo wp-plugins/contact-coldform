@@ -7,6 +7,7 @@ Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
+Contributors: specialk
 Requires at least: 3.8
 Tested up to: 4.1
 Stable tag: trunk
