@@ -2,42 +2,40 @@
 /*
 Plugin Name: Contact Coldform
 Plugin URI: http://perishablepress.com/contact-coldform/
-Description: Delivers a lightweight, clean-markup contact-form that doesn't require JavaScript.
-Tags: contact, form, contact form, email
+Description: Secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
+Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
-Requires at least: 3.7
-Tested up to: 4.0
+Requires at least: 3.8
+Tested up to: 4.1
 Stable tag: trunk
-Version: 20140922
+Version: 20150314
+Text Domain: coldform
+Domain Path: /languages/
 License: GPL v2
 */
 
-// NO EDITING REQUIRED - PLEASE SET PREFERENCES IN THE WP ADMIN!
-
 if (!function_exists('add_action')) die();
-
-// i18n
-function coldform_i18n_init() {
-	load_plugin_textdomain('coldform', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}
-add_action('plugins_loaded', 'coldform_i18n_init');
  
-$contact_coldform_version = '20140922';
-
+$contact_coldform_wp_vers = '3.8';
+$contact_coldform_version = '20150314';
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
 $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/contact-coldform.php';
 $contact_coldform_homeurl = 'http://perishablepress.com/contact-coldform/';
 
-// require minimum version of WordPress
+function coldform_i18n_init() {
+	load_plugin_textdomain('coldform', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+add_action('plugins_loaded', 'coldform_i18n_init');
+
 function contact_coldform_require_wp_version() {
-	global $wp_version, $contact_coldform_path, $contact_coldform_plugin;
-	if (version_compare($wp_version, '3.7', '<')) {
+	global $wp_version, $contact_coldform_path, $contact_coldform_plugin, $contact_coldform_wp_vers;
+	if (version_compare($wp_version, $contact_coldform_wp_vers, '<')) {
 		if (is_plugin_active($contact_coldform_path)) {
 			deactivate_plugins($contact_coldform_path);
-			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress 3.7 or higher, and has been deactivated!', 'coldform') . '<br />';
+			$msg =  '<strong>' . $contact_coldform_plugin . '</strong> ' . __('requires WordPress ', 'coldform') . $contact_coldform_wp_vers . __(' or higher, and has been deactivated!', 'coldform') . '<br />';
 			$msg .= __('Please return to the ', 'coldform') . '<a href="' . admin_url() . '">' . __('WordPress Admin area', 'coldform') . '</a> ' . __('to upgrade WordPress and try again.', 'coldform');
 			wp_die($msg);
 		}
@@ -47,22 +45,15 @@ if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
 	add_action('admin_init', 'contact_coldform_require_wp_version');
 }
 
-// create inputs
-$coldform_post_vars_name = '';
-$coldform_post_vars_email = '';
-$coldform_post_vars_response = '';
-$coldform_post_vars_message = '';
-if (isset($_POST['coldform_name'])) $coldform_post_vars_name = htmlentities($_POST['coldform_name']);
-if (isset($_POST['coldform_email'])) $coldform_post_vars_email = htmlentities($_POST['coldform_email']);
-if (isset($_POST['coldform_response'])) $coldform_post_vars_response = htmlentities($_POST['coldform_response']);
-if (isset($_POST['coldform_message'])) $coldform_post_vars_message = htmlentities($_POST['coldform_message']);
+$coldform_post_vars_name = ''; $coldform_post_vars_email = ''; $coldform_post_vars_response = ''; $coldform_post_vars_message = '';
 
-$name = '';
-$email = '';
-$response = '';
-$message = '';
-$verify = '';
-$error = '';
+if (isset($_POST['coldform_name']))     $coldform_post_vars_name     = sanitize_text_field($_POST['coldform_name']);
+if (isset($_POST['coldform_email']))    $coldform_post_vars_email    = sanitize_text_field($_POST['coldform_email']);
+if (isset($_POST['coldform_response'])) $coldform_post_vars_response = sanitize_text_field($_POST['coldform_response']);
+if (isset($_POST['coldform_message']))  $coldform_post_vars_message  = sanitize_text_field($_POST['coldform_message']);
+
+$name = ''; $email = ''; $response = ''; $message = ''; $verify = ''; $error = '';
+
 $contact_coldform_strings = array(
 	'name'     => '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_name . '" placeholder="'. __('Your name', 'coldform') .'" />', 
 	'email'    => '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . $coldform_post_vars_email . '" placeholder="'. __('Your email', 'coldform') .'" />', 
@@ -72,7 +63,6 @@ $contact_coldform_strings = array(
 	'error'    => '',
 );
 
-// spam filter
 function contact_coldform_filter_input($input) {
 	$maliciousness = false;
 	$denied_inputs = array("\r", "\n", "mime-version", "content-type", "cc:", "to:");
@@ -85,7 +75,6 @@ function contact_coldform_filter_input($input) {
 	return $maliciousness;
 }
 
-// challenge question
 function contact_coldform_spam_question($input) {
 	global $contact_coldform_options;
 	$response = $contact_coldform_options['coldform_response'];
@@ -97,7 +86,6 @@ function contact_coldform_spam_question($input) {
 	}
 }
 
-// get ip address
 function contact_coldform_get_ip_address() {
 	if (isset($_SERVER)) {
 		if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
@@ -119,19 +107,18 @@ function contact_coldform_get_ip_address() {
 	return $ip_address;
 }
 
-// filter input
 function contact_coldform_input_filter() {
 	global $contact_coldform_options, $contact_coldform_strings;
 	$coldform_style = $contact_coldform_options['coldform_style'];
 	$coldform_quest = $contact_coldform_options['coldform_question'];
 	$pass = true;
 
-	if (isset($_POST['coldform_name'])) $coldform_name = htmlentities(stripslashes(trim($_POST['coldform_name'])));
-	if (isset($_POST['coldform_email'])) $coldform_email = htmlentities(stripslashes(trim($_POST['coldform_email'])));
-	if (isset($_POST['coldform_topic'])) $coldform_topic = htmlentities(stripslashes(trim($_POST['coldform_topic'])));
-	if (isset($_POST['coldform_website'])) $coldform_website = htmlentities(stripslashes(trim($_POST['coldform_website'])));
-	if (isset($_POST['coldform_message'])) $coldform_message = htmlentities(stripslashes(trim($_POST['coldform_message'])));
-	if (isset($_POST['coldform_response'])) $coldform_response = htmlentities(stripslashes(trim($_POST['coldform_response'])));
+	if (isset($_POST['coldform_name']))     $coldform_name     = sanitize_text_field($_POST['coldform_name']);
+	if (isset($_POST['coldform_email']))    $coldform_email    = sanitize_text_field($_POST['coldform_email']);
+	if (isset($_POST['coldform_topic']))    $coldform_topic    = sanitize_text_field($_POST['coldform_topic']);
+	if (isset($_POST['coldform_website']))  $coldform_website  = sanitize_text_field($_POST['coldform_website']);
+	if (isset($_POST['coldform_message']))  $coldform_message  = sanitize_text_field($_POST['coldform_message']);
+	if (isset($_POST['coldform_response'])) $coldform_response = sanitize_text_field($_POST['coldform_response']);
 
 	if (!isset($_POST['coldform_key'])) { 
 		return false; 
@@ -139,22 +126,22 @@ function contact_coldform_input_filter() {
 	if (empty($_POST['coldform_name'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_name) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your name', 'coldform') .'" />';
+		$contact_coldform_strings['name'] = '<input name="coldform_name" id="coldform_name" type="text" size="33" maxlength="99" value="'. $coldform_name .'" class="coldform-error-input" '. $coldform_style .' placeholder="'. __('Your name', 'coldform') .'" />';
 	}
 	if (!is_email($_POST['coldform_email'])) {
 		$pass = false;
 		$fail = 'empty';
-		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_email) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your email', 'coldform') .'" />';
+		$contact_coldform_strings['email'] = '<input name="coldform_email" id="coldform_email" type="text" size="33" maxlength="99" value="'. $coldform_email .'" class="coldform-error-input" '. $coldform_style .' placeholder="'. __('Your email', 'coldform') .'" />';
 	}
 	if (!empty($_POST['coldform_verify'])) { 
 		$pass = false; 
 		$fail = 'verify';
-		$contact_coldform_strings['verify'] = '<input name="coldform_verify" type="text" size="33" maxlength="99" class="coldform-error-input" value="" ' . $coldform_style . ' />';
+		$contact_coldform_strings['verify'] = '<input name="coldform_verify" type="text" size="33" maxlength="99" class="coldform-error-input" value="" '. $coldform_style .' />';
 	}
 	if (empty($_POST['coldform_message'])) {
 		$pass = false; 
 		$fail = 'empty';
-		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" ' . $coldform_style . ' placeholder="'. __('Your message', 'coldform') .'">' . htmlentities($coldform_message) . '</textarea>';
+		$contact_coldform_strings['message'] = '<textarea name="coldform_message" id="coldform_message" cols="33" rows="11" class="coldform-error-input" '. $coldform_style .' placeholder="'. __('Your message', 'coldform') .'">'. $coldform_message .'</textarea>';
 	}
 	if (contact_coldform_filter_input($coldform_name) || contact_coldform_filter_input($coldform_email)) {
 		$pass = false; 
@@ -164,12 +151,12 @@ function contact_coldform_input_filter() {
 		if (empty($_POST['coldform_response'])) {
 			$pass = false; 
 			$fail = 'empty';
-			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_response) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $coldform_quest . '" />';
+			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="'. $coldform_response .'" class="coldform-error-input" '. $coldform_style .' placeholder="'. $coldform_quest .'" />';
 		}
 		if (!contact_coldform_spam_question($_POST['coldform_response'])) {
 			$pass = false;
 			$fail = 'wrong';
-			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="' . htmlentities($coldform_response) . '" class="coldform-error-input" ' . $coldform_style . ' placeholder="' . $coldform_quest . '" />';
+			$contact_coldform_strings['response'] = '<input name="coldform_response" id="coldform_response" type="text" size="33" maxlength="99" value="'. $coldform_response .'" class="coldform-error-input" '. $coldform_style .' placeholder="'. $coldform_quest .'" />';
 		}	
 	}
 	if ($pass == true) {
@@ -188,8 +175,6 @@ function contact_coldform_input_filter() {
 	}
 }
 
-// enqueue styles
-add_action('init', 'contact_coldform_register_style');
 function contact_coldform_register_style() {
 	global $contact_coldform_options, $contact_coldform_version;
 	$coldform_coldskin = $contact_coldform_options['coldform_coldskin'];
@@ -215,10 +200,8 @@ function contact_coldform_register_style() {
 		}
 	}
 }
+add_action('init', 'contact_coldform_register_style');
 
-// shortcodes to display coldform
-add_shortcode('coldform','contact_coldform_shortcode');
-add_shortcode('contact_coldform','contact_coldform_shortcode');
 function contact_coldform_shortcode() {
 	if (contact_coldform_input_filter()) {
 		return contact_coldform();
@@ -226,8 +209,9 @@ function contact_coldform_shortcode() {
 		return contact_coldform_display_form();
 	}
 }
+add_shortcode('coldform','contact_coldform_shortcode');
+add_shortcode('contact_coldform','contact_coldform_shortcode');
 
-// template tag to display coldform
 function contact_coldform_public() {
 	if(contact_coldform_input_filter()) {
 		echo contact_coldform();
@@ -236,7 +220,6 @@ function contact_coldform_public() {
 	}
 }
 
-// display coldform
 function contact_coldform_display_form() {
 	global $contact_coldform_options, $contact_coldform_strings;
 
@@ -273,7 +256,7 @@ function contact_coldform_display_form() {
 	
 	$coldform_website = '';
 	$coldform_website_value = '';
-	if (isset($_POST['coldform_website'])) $coldform_website_value = htmlentities($_POST['coldform_website']);
+	if (isset($_POST['coldform_website'])) $coldform_website_value = sanitize_text_field($_POST['coldform_website']);
 	if (isset($contact_coldform_options['display_website']) && $contact_coldform_options['display_website'] == true) {
 		$coldform_website = '<fieldset class="coldform-website">
 					<label for="coldform_website">' . $sitetext . '</label>
@@ -282,7 +265,7 @@ function contact_coldform_display_form() {
 	}
 	
 	$coldform_topic = '';
-	if (isset($_POST['coldform_topic'])) $coldform_topic = htmlentities($_POST['coldform_topic']);
+	if (isset($_POST['coldform_topic'])) $coldform_topic = sanitize_text_field($_POST['coldform_topic']);
 	
 	$coldform = (
 		$contact_coldform_strings['error'] . '
@@ -326,12 +309,11 @@ function contact_coldform_display_form() {
 	return $coldform;
 }
 
-// contact coldform
 function contact_coldform($content='') {
 	global $contact_coldform_options, $contact_coldform_strings;
 
-	$prefix_topic = $contact_coldform_options['coldform_prefix'] . htmlentities($_POST['coldform_topic']);
-	$user_topic = htmlentities($_POST['coldform_topic']);
+	$prefix_topic = $contact_coldform_options['coldform_prefix'] . sanitize_text_field($_POST['coldform_topic']);
+	$user_topic = sanitize_text_field($_POST['coldform_topic']);
 
 	if (empty($_POST['coldform_topic'])) {
 		$topic = $contact_coldform_options['coldform_subject'];
@@ -347,29 +329,30 @@ function contact_coldform($content='') {
 		$website = __('No website specified.', 'coldform');
 		
 	} elseif (!empty($_POST['coldform_website'])) {
-		$website = htmlentities($_POST['coldform_website']);
+		$website = sanitize_text_field($_POST['coldform_website']);
 	}
 	$recipient = $contact_coldform_options['coldform_email'];
 	$recipname = $contact_coldform_options['coldform_name'];
 	$recipsite = $contact_coldform_options['coldform_website'];
 	$success   = $contact_coldform_options['coldform_success'];
 	$thanks    = $contact_coldform_options['coldform_thanks'];
-	$name      = htmlentities($_POST['coldform_name']);
-	$email     = htmlentities($_POST['coldform_email']);
+	$name      = sanitize_text_field($_POST['coldform_name']);
+	$email     = sanitize_text_field($_POST['coldform_email']);
 
 	$senderip  = contact_coldform_get_ip_address();
-	$offset    = $contact_coldform_options['coldform_offset'];
-	$agent     = htmlentities($_SERVER['HTTP_USER_AGENT']);
-	$form      = htmlentities(getenv("HTTP_REFERER"));
+	$agent     = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
+	$form      = sanitize_text_field(getenv("HTTP_REFERER"));
 	$host      = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$offset    = $contact_coldform_options['coldform_offset'];
 	$date      = date("l, F jS, Y @ g:i a", time()+$offset*60*60);
 
 	$headers   = "MIME-Version: 1.0\n";
 	$headers  .= "From: $name <$email>\n";
+	$headers  .= "Reply-To: $email\n";
+	$headers  .= "Return-Path: $email\n";
 	$headers  .= "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 
-	$message   = htmlentities($_POST['coldform_message']);
+	$message   = stripslashes(strip_tags(trim($_POST['coldform_message'])));
 	$message   = wordwrap($message, 77, "\n");
 	$fullmsg   = "Hello $recipname,
 
@@ -421,8 +404,6 @@ Message:    ' . $message . '</code></pre>
 	return $results;
 }
 
-// display settings link on plugin page
-add_filter ('plugin_action_links', 'contact_coldform_plugin_action_links', 10, 2);
 function contact_coldform_plugin_action_links($links, $file) {
 	global $contact_coldform_path;
 	if ($file == $contact_coldform_path) {
@@ -431,8 +412,8 @@ function contact_coldform_plugin_action_links($links, $file) {
 	}
 	return $links;
 }
+add_filter ('plugin_action_links', 'contact_coldform_plugin_action_links', 10, 2);
 
-// rate plugin link
 function add_coldform_links($links, $file) {
 	if ($file == plugin_basename(__FILE__)) {
 		$rate_url = 'http://wordpress.org/support/view/plugin-reviews/' . basename(dirname(__FILE__)) . '?rate=5#postform';
@@ -442,7 +423,6 @@ function add_coldform_links($links, $file) {
 }
 add_filter('plugin_row_meta', 'add_coldform_links', 10, 2);
 
-// delete plugin settings
 function contact_coldform_delete_plugin_options() {
 	delete_option('contact_coldform_options');
 }
@@ -450,8 +430,6 @@ if ($contact_coldform_options['default_options'] == 1) {
 	register_uninstall_hook (__FILE__, 'contact_coldform_delete_plugin_options');
 }
 
-// define default settings
-register_activation_hook (__FILE__, 'contact_coldform_add_defaults');
 function contact_coldform_add_defaults() {
 	$user_info = get_userdata(1);
 	if ($user_info == true) {
@@ -498,8 +476,8 @@ function contact_coldform_add_defaults() {
 		update_option('contact_coldform_options', $arr);
 	}
 }
+register_activation_hook (__FILE__, 'contact_coldform_add_defaults');
 
-// sanitize and validate input
 function contact_coldform_validate_options($input) {
 	global $coldform_coldskins;
 
@@ -582,7 +560,6 @@ function contact_coldform_validate_options($input) {
 	return $input;
 }
 
-// define style options
 $coldform_coldskins = array(
 	'coldskin_default' => array(
 		'value' => 'coldskin_default',
@@ -598,20 +575,17 @@ $coldform_coldskins = array(
 	),
 );
 
-// whitelist settings
-add_action ('admin_init', 'contact_coldform_init');
 function contact_coldform_init() {
 	register_setting('contact_coldform_plugin_options', 'contact_coldform_options', 'contact_coldform_validate_options');
 }
+add_action ('admin_init', 'contact_coldform_init');
 
-// add the options page
-add_action ('admin_menu', 'contact_coldform_add_options_page');
 function contact_coldform_add_options_page() {
 	global $contact_coldform_plugin;
 	add_options_page($contact_coldform_plugin, $contact_coldform_plugin, 'manage_options', __FILE__, 'contact_coldform_render_form');
 }
+add_action ('admin_menu', 'contact_coldform_add_options_page');
 
-// create the options page
 function contact_coldform_render_form() {
 	global $contact_coldform_plugin, $contact_coldform_options, $contact_coldform_path, $contact_coldform_homeurl, $contact_coldform_version, $coldform_coldskins; 
 	$offset = $contact_coldform_options['coldform_offset'];?>
@@ -648,8 +622,6 @@ function contact_coldform_render_form() {
 	</style>
 
 	<div id="mm-plugin-options" class="wrap">
-		<?php screen_icon(); ?>
-
 		<h2><?php echo $contact_coldform_plugin; ?> <small><?php echo 'v' . $contact_coldform_version; ?></small></h2>
 		<div id="mm-panel-toggle"><a href="<?php get_admin_url() . 'options-general.php?page=' . $contact_coldform_path; ?>"><?php _e('Toggle all panels', 'coldform'); ?></a></div>
 
@@ -966,5 +938,3 @@ function contact_coldform_render_form() {
 	</script>
 
 <?php }
-
-

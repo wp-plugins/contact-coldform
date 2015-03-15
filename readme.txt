@@ -6,12 +6,13 @@ Description: Secure, lightweight and flexible contact form with plenty of option
 Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
-Contributors: specialk
-Donate link: http://wp-tao.com/
-Requires at least: 3.7
-Tested up to: 4.0
+Donate link: http://m0n.co/donate
+Requires at least: 3.8
+Tested up to: 4.1
 Stable tag: trunk
-Version: 20140922
+Version: 20150314
+Text Domain: coldform
+Domain Path: /languages/
 License: GPL v2
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
@@ -97,6 +98,19 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20150314 =
+
+* Tested with latest version of WP (4.1)
+* Increased minimum version to WP 3.8
+* Removed deprecated screen_icon()
+* Removed redundant htmlentities()
+* Replaced htmlentities() with sanitize_text_field()
+* Added $contact_coldform_wp_vers
+* Streamline/fine-tune plugin code
+* Added Reply-To and Return-Path to email headers
+* Added Text Domain and Domain Path to file header
+* Replaced default .mo/.po templates with .pot template
 
 = Version 20140922 =
 
