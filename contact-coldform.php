@@ -1,30 +1,30 @@
 <?php 
 /*
 Plugin Name: Contact Coldform
-Plugin URI: http://perishablepress.com/contact-coldform/
+Plugin URI: https://perishablepress.com/contact-coldform/
 Description: Secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
 Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Contributors: specialk
-Requires at least: 3.8
-Tested up to: 4.1
+Requires at least: 3.9
+Tested up to: 4.2
 Stable tag: trunk
-Version: 20150314
+Version: 20150507
 Text Domain: coldform
 Domain Path: /languages/
-License: GPL v2
+License: GPL v2 or later
 */
 
 if (!function_exists('add_action')) die();
  
-$contact_coldform_wp_vers = '3.8';
-$contact_coldform_version = '20150314';
+$contact_coldform_wp_vers = '3.9';
+$contact_coldform_version = '20150507';
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
 $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/contact-coldform.php';
-$contact_coldform_homeurl = 'http://perishablepress.com/contact-coldform/';
+$contact_coldform_homeurl = 'https://perishablepress.com/contact-coldform/';
 
 function coldform_i18n_init() {
 	load_plugin_textdomain('coldform', false, dirname(plugin_basename(__FILE__)) . '/languages/');
@@ -270,7 +270,7 @@ function contact_coldform_display_form() {
 	
 	$coldform = (
 		$contact_coldform_strings['error'] . '
-		<!-- Contact Coldform @ http://perishablepress.com/contact-coldform/ -->
+		<!-- Contact Coldform @ https://perishablepress.com/contact-coldform/ -->
 		<div id="coldform">
 			<form action="' . get_permalink() . '" method="post">
 				<legend title="'. __('Note: text only, no markup.', 'coldform') .'">' . $lgndtext . '</legend>
@@ -885,7 +885,7 @@ function contact_coldform_render_form() {
 						<h3><?php _e('Updates &amp; Info', 'coldform'); ?></h3>
 						<div class="toggle">
 							<div id="mm-iframe-wrap">
-								<iframe src="http://perishablepress.com/current/index-cc.html"></iframe>
+								<iframe src="https://perishablepress.com/current/index-cc.html"></iframe>
 							</div>
 						</div>
 					</div>

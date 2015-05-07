@@ -1,26 +1,26 @@
 === Contact Coldform ===
 
 Plugin Name: Contact Coldform
-Plugin URI: http://perishablepress.com/contact-coldform/
+Plugin URI: https://perishablepress.com/contact-coldform/
 Description: Secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
 Tags: captcha, contact, contact form, email, form, mail
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Contributors: specialk
-Requires at least: 3.8
-Tested up to: 4.1
+Requires at least: 3.9
+Tested up to: 4.2
 Stable tag: trunk
-Version: 20150314
+Version: 20150507
 Text Domain: coldform
 Domain Path: /languages/
-License: GPL v2
+License: GPL v2 or later
 
 Contact Coldform is a secure, lightweight and flexible contact form with plenty of options and squeaky clean markup.
 
 == Description ==
 
-[Contact Coldform](http://perishablepress.com/contact-coldform/) is a secure, lightweight, flexible contact form with plenty of options and squeaky clean markup. Coldform blocks spam while making it easy for your visitors to contact you from your WordPress-powered website. The comprehensive Settings Page makes it easy to take full control with plenty of options and several built-in themes for styling the form. Coldform delivers everything you need and nothing you don&rsquo;t -- no frills, no gimmicks, just pure contact-form satisfaction.
+[Contact Coldform](https://perishablepress.com/contact-coldform/) is a secure, lightweight, flexible contact form with plenty of options and squeaky clean markup. Coldform blocks spam while making it easy for your visitors to contact you from your WordPress-powered website. The comprehensive Settings Page makes it easy to take full control with plenty of options and several built-in themes for styling the form. Coldform delivers everything you need and nothing you don&rsquo;t -- no frills, no gimmicks, just pure contact-form satisfaction.
 
 **Overview**
 
@@ -86,9 +86,11 @@ Shortcode: `[coldform]`
 
 Template tag: `<?php if (function_exists('contact_coldform_public')) contact_coldform_public(); ?>`
 
-Check out the [Coldform Demo](http://bluefeed.net/wordpress/contact-coldform/) and its [CSS hooks](http://m0n.co/b).
+Check out [CSS hooks for Contact Coldform](http://m0n.co/b).
 
-For more information, visit the [Coldform Homepage](http://perishablepress.com/contact-coldform/).
+For more information, visit the [Coldform Homepage](https://perishablepress.com/contact-coldform/).
+
+[More info on installing WP plugins](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins)
 
 == Upgrade Notice ==
 
@@ -96,9 +98,14 @@ __Important!__ Many things have changed in the new version of the plugin. Please
 
 == Screenshots ==
 
-Screenshots available at the [Coldform Homepage](http://perishablepress.com/contact-coldform/#screenshots).
+Screenshots available at the [Coldform Homepage](https://perishablepress.com/contact-coldform/#screenshots).
 
 == Changelog ==
+
+= Version 20150507 =
+
+* Tested with WP 4.2 + 4.3 (alpha)
+* Changed a few "http" links to "https"
 
 = Version 20150314 =
 
@@ -212,15 +219,15 @@ Answer: Visit the "Appearance and Styles" panel in the plugin settings. There yo
 
 = Questions? =
 
-I try to keep an eye on the WordPress forums, but it's best to [contact me](http://perishablepress.com/contact/) directly with questions or concerns. Thanks.
+I try to keep an eye on the WordPress forums, but it's best to [contact me](https://perishablepress.com/contact/) directly with questions or concerns. Thanks.
 
 == Donations ==
 
 I created this plugin with love for the WP community. To show support, you can [make a donation](http://m0n.co/donate) or purchase one of my books: 
 
-* [The Tao of WordPress](http://wp-tao.com/)
-* [Digging into WordPress](http://digwp.com/)
-* [.htaccess made easy](http://htaccessbook.com/)
-* [WordPress Themes In Depth](http://wp-tao.com/wordpress-themes-book/)
+* [The Tao of WordPress](https://wp-tao.com/)
+* [Digging into WordPress](https://digwp.com/)
+* [.htaccess made easy](https://htaccessbook.com/)
+* [WordPress Themes In Depth](https://wp-tao.com/wordpress-themes-book/)
 
 Links, tweets and likes also appreciated. Thanks! :)
