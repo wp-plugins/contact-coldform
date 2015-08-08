@@ -8,10 +8,10 @@ Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Contributors: specialk
-Requires at least: 3.9
-Tested up to: 4.2
+Requires at least: 4.0
+Tested up to: 4.3
 Stable tag: trunk
-Version: 20150507
+Version: 20150808
 Text Domain: coldform
 Domain Path: /languages/
 License: GPL v2 or later
@@ -19,8 +19,8 @@ License: GPL v2 or later
 
 if (!function_exists('add_action')) die();
  
-$contact_coldform_wp_vers = '3.9';
-$contact_coldform_version = '20150507';
+$contact_coldform_wp_vers = '4.0';
+$contact_coldform_version = '20150808';
 $contact_coldform_plugin  = __('Contact Coldform', 'coldform');
 $contact_coldform_options = get_option('contact_coldform_options');
 $contact_coldform_path    = plugin_basename(__FILE__); // 'contact-coldform/contact-coldform.php';
